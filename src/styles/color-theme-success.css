@@ -1,0 +1,30 @@
+.theme-success {
+  /* Brand colors */
+  /* --color-brand-0: theme('colors.green.500');
+  --color-brand-1: theme('colors.green.400');
+  --color-brand-2: theme('colors.green.600');
+  --color-brand-contrast-0: theme('colors.gray.100');
+  --color-brand-contrast-1: theme('colors.gray.100');
+  --color-brand-contrast-2: theme('colors.gray.100'); */
+  /* Main colors */
+  --color-background: #BBF7D0;
+  --color-background-secondary: #DCFCE7;
+  --color-text: #404040;
+  --color-text-secondary: #525252;
+  --color-text-heading: #14532D;
+  /* Action colors */
+  --color-action-0: #22C55E;
+  --color-action-1: #4ADE80;
+  --color-action-2: #86EFAC;
+  --color-action-3: #BBF7D0;
+  --color-action-contrast-0: #F5F5F5;
+  --color-action-contrast-1: #F5F5F5;
+  --color-action-contrast-2: #171717;
+  --color-action-contrast-3: #404040;
+}
+
+/* For auto theming support */
+/*@media (prefers-scheme: dark) {
+  :root {
+  }
+} */

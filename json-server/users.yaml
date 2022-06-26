@@ -1,0 +1,9 @@
+users:
+  - id: 1
+    name: admin
+    email: admin
+    password: admin
+  - id: 2
+    name: user
+    email: user
+    password: user

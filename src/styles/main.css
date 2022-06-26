@@ -1,0 +1,9 @@
+@import '~/styles/color-theme-default.css';
+@import '~/styles/color-theme-danger.css';
+@import '~/styles/color-theme-success.css';
+@import '~/styles/color-theme-warning.css';
+@import '~/styles/typography.css';
+
+*:focus {
+  outline: none;
+}

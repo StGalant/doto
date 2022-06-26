@@ -1,0 +1,9 @@
+nav:
+  about: О приложении
+not-found: Путь не найден
+form:
+  input:
+    email: Введите адрес E-mail
+    password: Введите пароль
+  button:
+    login: Войти

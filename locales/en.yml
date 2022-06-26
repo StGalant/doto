@@ -1,0 +1,9 @@
+nav:
+  about: About
+not-found: Path not found
+form:
+  input:
+    email: E-mail address
+    password: Password
+  button:
+    login: Login

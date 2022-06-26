@@ -1,0 +1,26 @@
+export default [
+  {
+    id: '1',
+    title: 'Project 1',
+    content: 'Content 1',
+    ownerId: '1',
+    membersIds: [],
+    stages: ['TODO', 'INPROGRESS', 'DONE'],
+    active: true,
+    tags: [],
+    createdAt: 0,
+    updatedAt: 0,
+  },
+  {
+    id: '2',
+    title: 'Project 2',
+    content: 'Content 2',
+    ownerId: '1',
+    membersIds: [],
+    stages: ['TODO', 'INPROGRESS', 'DONE'],
+    active: true,
+    tags: [],
+    createdAt: 0,
+    updatedAt: 0,
+  },
+]

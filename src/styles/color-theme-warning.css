@@ -1,0 +1,30 @@
+.theme-warning {
+  /* Brand colors */
+  /* --color-brand-0: theme('colors.orange.500');
+  --color-brand-1: theme('colors.orange.400');
+  --color-brand-2: theme('colors.orange.600');
+  --color-brand-contrast-0: theme('colors.gray.100');
+  --color-brand-contrast-1: theme('colors.gray.100');
+  --color-brand-contrast-2: theme('colors.gray.100'); */
+  /* Main colors */
+  --color-background: #FED7AA;
+  --color-background-secondary: #FFEDD5;
+  --color-text: #404040;
+  --color-text-secondary: #525252;
+  --color-text-heading: #171717;
+  /* Action colors */
+  --color-action-0: #F97316;
+  --color-action-1: #FB923C;
+  --color-action-2: #FDBA74;
+  --color-action-3: #FED7AA;
+  --color-action-contrast-0: #F5F5F5;
+  --color-action-contrast-1: #F5F5F5;
+  --color-action-contrast-2: #171717;
+  --color-action-contrast-3: #404040;
+}
+
+/* For auto theming support */
+/*@media (prefers-scheme: dark) {
+  :root {
+  }
+} */
