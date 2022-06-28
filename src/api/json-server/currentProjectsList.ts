@@ -23,7 +23,7 @@ export const loadCurrentProjects = async (onSnap?: OnChangeProjectsListCb, onErr
     const user = getCurrentUser()
     if (!user)
       throw new Error('Authentication required')
-    const allProjects = await api.get<Project[]>('')
+    const allProjects = await api.get<Project[]>('', { headers: { 'Cache-control': 'no-cache' } })
     projectsListChangeCb.forEach(cb => cb(allProjects, 'modified'))
     return allProjects.filter(p => (p.ownerId === user.id || p.membersIds.includes(user.id)))
   }

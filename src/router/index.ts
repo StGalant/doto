@@ -4,6 +4,8 @@ import About from '~/pages/About.vue'
 import Home from '~/pages/Home.vue'
 import Login from '~/pages/Login.vue'
 import Projects from '~/pages/Projects.vue'
+import Project from '~/pages/Project.vue'
+import NewProject from '~/pages/NewProject.vue'
 
 export const routes = [
   {
@@ -20,6 +22,16 @@ export const routes = [
     path: '/projects',
     name: 'Projects',
     component: Projects,
+  },
+  {
+    path: '/projects/new',
+    name: 'NewProject',
+    component: NewProject,
+  },
+  {
+    path: '/projects/:id',
+    name: 'Project',
+    component: Project,
   },
   {
     path: '/about',

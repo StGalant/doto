@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useProjectsStore } from '~/store/projects'
 import type { Project } from '~/models/Project'
 import { useSortFunctions } from '~/composables/useSortFunctions'
@@ -12,7 +12,7 @@ export default defineComponent({
 
     const store = useProjectsStore()
 
-    onMounted(() => store.loadProjects())
+    store.loadProjects()
 
     const sortFunctions = useSortFunctions<Project>(['title', 'createdAt'])
     const sortBy = ref('title')
@@ -39,13 +39,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="projects-updating-indicator">
-    <div v-if="store?.updating" class="projects-updating-indicator-on">
-      updating...
-    </div>
-  </div>
-  <ul v-if="!store?.loading" class="projects">
-    <li v-for="p in projects" :key="p.id" class="project">
+  <ul v-if="!store?.loading" class="Projects__list">
+    <li v-for="p in projects" :key="p.id" class="Projects__card" data-test-id="project-card">
       <div class="title">
         {{ p.title }}
       </div>

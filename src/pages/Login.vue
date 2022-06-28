@@ -2,8 +2,7 @@
 import { ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { VInput } from 'vue-design-test'
-import VButton from 'vue-design-test/src/components/VButton.vue'
+import { VButton, VInput } from 'vue-design-test'
 import { useUserStore } from '~/store/user'
 
 const { t } = useI18n()

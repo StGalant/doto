@@ -1,4 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useUserStore } from './user'
 import { loadCurrentProjects } from '~/api'
 import type { Project } from '~/models/Project'
 
@@ -38,6 +39,21 @@ export const useProjectsStore = defineStore('projects', {
     loadProjects() {
       this.loading = true
       loadCurrentProjects(this.updateProjects, this.setError)
+    },
+    async addProject(p: Project) {
+      // TODO call API
+      const userStore = useUserStore()
+      if (!userStore.user)
+        throw new Error('Authorisation failed')
+
+      p.ownerId = userStore.user.id
+      console.log(this.projects)
+      console.log(p)
+
+      this.projects.push(p)
+      console.log(this.projects)
+
+      return p
     },
   },
 })
