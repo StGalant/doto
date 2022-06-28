@@ -1,9 +1,9 @@
 users:
   - id: 1
     name: admin
-    email: admin
+    email: admin@local
     password: admin
   - id: 2
     name: user
-    email: user
+    email: user@local
     password: user

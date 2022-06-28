@@ -86,6 +86,16 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
 
 server.use(router)
 
+server.use((req, res, next) => {
+  const now = new Date().toJSON()
+  if (req.method === 'POST')
+    req.body.createdAt = now
+  if (req.method === 'PATCH' || req.method === 'POST')
+    req.body.updatedAt = now
+  // Continue to JSON Server router
+  next()
+})
+
 server.listen(7000, () => {
   console.log('JSON server listen on port 7000')
 })
