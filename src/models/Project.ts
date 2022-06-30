@@ -2,6 +2,7 @@ export interface Stage {
   id: string
   name?: string
   color?: string
+  final?: boolean
 }
 
 export interface Project {
@@ -17,10 +18,20 @@ export interface Project {
   updatedAt: string
 }
 
-export const defaultStages = [
-  'STORY',
-  'TODO',
-  'DONE',
+export const defaultStages: Stage[] = [
+  {
+    id: 'IDEA',
+    name: 'Задумки',
+  },
+  {
+    id: 'INPROGRESS',
+    name: 'В работе',
+  },
+  {
+    id: 'DONE',
+    name: 'Завершено',
+    final: true,
+  },
 ]
 
 export const createProject = () => {
