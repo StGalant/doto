@@ -7,8 +7,32 @@ import type { Project } from '~/models/Project'
 export type OnChangeProjectCb = (p: Project, changeType: 'created' | 'modified' | 'removed') => void
 export type OnErrorProjectCb = (err: any) => void
 
+const { collections: { projects: { path } } } = config
+
+export const createProject = async (p: any) => {
+  const user = getCurrentUser()
+  if (!user)
+    throw new Error('error.notAuth')
+
+  const api = mande(`${path}`)
+  const { id: ownerId } = user
+  const createdAt = new Date().toJSON()
+  const updatedAt = createdAt
+  try {
+    return await api.post<Project>({
+      ...p,
+      ownerId,
+      createdAt,
+      updatedAt,
+    })
+  }
+  catch (err) {
+    const error = handleError(err)
+    throw error
+  }
+}
+
 export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: OnErrorProjectCb) => {
-  const { collections: { projects: { path } } } = config
   const id = _id
 
   const api = mande(`${path}/${id}`)
@@ -32,16 +56,15 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
       projectErrorCb.delete(e)
   }
 
-  const load = async (onChange?: OnChangeProjectCb, onError?: OnErrorProjectCb) => {
-    subscribe(onChange, onError)
+  const load = async () => {
     try {
-      const project = await api.get<Project>(id, { query: { active: true } })
+      const project = await api.get<Project>('', { query: { active: true } })
 
       // json-server not implemented such queries, so..
       const user = getCurrentUser()
       if (!user)
         throw new Error('Authorization required!')
-      if (project.ownerId !== user.id || project.membersIds.includes(user.id))
+      if (project.ownerId !== user.id || project.membersIds?.includes(user.id))
         throw new Error('Access denied!')
 
       projectChangeCb.forEach(cb => cb(project, 'modified'))
@@ -56,7 +79,7 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
 
   const update = async (project: Project) => {
     try {
-      const p = await api.put<Project>(project)
+      const p = await api.put<Project>({ ...project, updatedAt: new Date().toJSON() })
       projectChangeCb.forEach(cb => cb(p, 'modified'))
       return p
     }
@@ -69,7 +92,7 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
 
   const patch = async (data: any) => {
     try {
-      const p = await api.patch<Project>(data)
+      const p = await api.patch<Project>({ ...data, updatedAt: new Date().toJSON() })
       projectChangeCb.forEach(cb => cb(p, 'modified'))
       return p
     }
@@ -100,24 +123,5 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
     update,
     patch,
     remove,
-  }
-}
-
-export const createProject = async (project: Project, onChange?: OnChangeProjectCb, onError?: OnErrorProjectCb) => {
-  const { collections: { projects: { path } } } = config
-  const api = mande(`${path}`)
-
-  try {
-    const newProject = await api.post<Project>(project)
-    if (onChange)
-      onChange(newProject, 'created')
-    const newApi = useProject(newProject.id, onChange, onError)
-    return newApi
-  }
-  catch (err: any) {
-    const error = handleError(err)
-    if (onError)
-      onError(err.message)
-    throw error
   }
 }
