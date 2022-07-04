@@ -3,20 +3,13 @@ import { computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProjectsStore } from '~/store/projects'
 import type { Project } from '~/models/Project'
-import { useSortFunctions } from '~/composables/useSortFunctions'
+import { createSortFunctions } from '~/composables/createSortFunctions'
 import { isAuthenticated } from '~/composables/isAuthenticated'
 
 export default defineComponent({
   setup() {
-    if (!isAuthenticated())
-      return { store: null, projects: [] }
-
     const { t } = useI18n()
-    const store = useProjectsStore()
-
-    store.loadProjects()
-
-    const sortFunctions = useSortFunctions<Project>(['title', 'createdAt'])
+    const sortFunctions = createSortFunctions<Project>(['title', 'createdAt'])
     const sortBy = ref('title')
     const sortDir = ref<'asc' | 'desc'>('asc')
     const sortFn = computed(() => {
@@ -25,6 +18,20 @@ export default defineComponent({
         fn = (a, b) => -1 * fn(a, b)
       return fn
     })
+
+    if (!isAuthenticated()) {
+      return {
+        store: null,
+        projects: [],
+        t,
+        sortBy,
+        sortDir,
+        sortFn,
+      }
+    }
+
+    const store = useProjectsStore()
+    store.loadProjects()
     const projects = computed(() => {
       return store.projects.slice().sort(sortFn.value)
     })
@@ -35,7 +42,7 @@ export default defineComponent({
       sortDir,
       sortFn,
       store,
-      t: t as any,
+      t,
     }
   },
 })
@@ -49,7 +56,9 @@ export default defineComponent({
     <ul v-if="!store?.loading" class="Projects__list">
       <li v-for="p in projects" :key="p.id" class="Projects__card" data-test-id="project-card">
         <div class="title">
-          {{ p.title }}
+          <RouterLink :to="{ name: 'Project', params: { projectId: p.id } }">
+            {{ p.title }}
+          </RouterLink>
         </div>
       </li>
     </ul>
