@@ -7,3 +7,14 @@ form:
     password: Password
   button:
     login: Login
+project:
+  new-heading: Create new project
+  title: Title
+  content: Description
+  tags: Tags
+  stages: Stages
+  stage:
+    name: Name
+    isFinal: final
+error:
+  notAuth: Authentication needed

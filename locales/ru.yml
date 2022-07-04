@@ -7,3 +7,16 @@ form:
     password: Введите пароль
   button:
     login: Войти
+    create: Создать
+    cancel: отмена
+project:
+  new-heading: Создай новый проект
+  title: Название
+  content: Описание
+  tags: Тэги
+  stages: Стадии
+  stage:
+    name: Имя
+    isFinal: финальная
+error:
+  notAuth: Нужна авторизация
