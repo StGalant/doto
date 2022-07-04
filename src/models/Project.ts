@@ -34,12 +34,13 @@ export const defaultStages: Stage[] = [
   },
 ]
 
-export const createProject = () => {
+export const newProject = () => {
   return {
     title: '',
     content: '',
     tags: [],
     stages: [...defaultStages],
     active: true,
+    membersIds: [],
   }
 }

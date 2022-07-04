@@ -29,9 +29,10 @@ export const routes = [
     component: NewProject,
   },
   {
-    path: '/projects/:id',
+    path: '/projects/:projectId',
     name: 'Project',
     component: Project,
+    props: true,
   },
   {
     path: '/about',
