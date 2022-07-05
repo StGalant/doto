@@ -15,7 +15,7 @@ const authCallBacks = new Set<AuthCallback>()
 let currentUser: User | null = null
 
 const login = async (email: string, password: string): Promise<User> => {
-  const { access_token: token, id } = await authApi.post<{ access_token: string; id: string }>(loginPath, { email, password })
+  const { access_token: token, id } = await authApi.post<{ access_token: string; id: string | number }>(loginPath, { email, password })
     .catch((err) => {
       console.error(err)
       const message = err instanceof TypeError
@@ -24,10 +24,19 @@ const login = async (email: string, password: string): Promise<User> => {
       throw new Error(message)
     })
 
-  localStorage.setItem('user', JSON.stringify({ email, token }))
+  localStorage.setItem('user', JSON.stringify({ id, email, token }))
   defaults.headers.Authorization = `Bearer ${token}`
   currentUser = { email, token, id }
   authCallBacks.forEach(cb => cb(currentUser))
+  setInterval(()=> { 
+    authApi.get<User>('')
+      .then( u => currentUser = u)
+      .catch(() => {
+        currentUser = null
+        localStorage.removeItem('user')
+        authCallBacks.forEach(cb => cb(currentUser))
+      })
+  }, 600000)
   return { email, token, id }
 }
 
