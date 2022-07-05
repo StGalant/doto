@@ -25,7 +25,7 @@ function verifyToken(token) {
 function refreshToken(token) {
   try {
     const decodedToken = verifyToken(token)
-    return createToken({ email: decodedToken.email })
+    return createToken({ email: decodedToken.email, id: decodedToken.id })
   }
   catch (_err) {
     return null
