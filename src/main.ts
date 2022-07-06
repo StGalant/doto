@@ -2,7 +2,6 @@ import { ViteSSG } from 'vite-ssg'
 import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
 import { useAppInit } from './composables/useAppInit'
-import { useUserStore } from './store/user'
 // import { authInit } from './api'
 import { routes as _routes } from '~/router'
 
