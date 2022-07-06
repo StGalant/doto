@@ -2,8 +2,10 @@ export interface Task {
   id: string
   projectId: string
   ownwerId: string
-  stage: string
+  stageId: string
   order: number
-  createdAt: number
+  createdAt: string
+  updatedAt: string
   tags: string[]
+  content: string
 }
