@@ -14,6 +14,9 @@
     "json-server": "node json-server/server.js"
   },
   "dependencies": {
+    "@iconify-json/clarity": "^1.1.4",
+    "@iconify-json/mdi": "^1.1.25",
+    "@iconify-json/tabler": "^1.1.18",
     "@vueuse/core": "^8.7.5",
     "@vueuse/head": "^0.7.6",
     "firebase": "^9.8.4",
