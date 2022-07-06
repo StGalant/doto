@@ -33,6 +33,7 @@ export const routes = [
     name: 'Project',
     component: Project,
     props: true,
+    meta: { layout: 'ProjectLayout' },
   },
   {
     path: '/about',
