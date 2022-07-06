@@ -12,8 +12,14 @@ if (!import.meta.env.SSR) {
 </script>
 
 <template>
-  <main v-if="initialized" class="container mx-auto theme-default">
+  <main v-if="initialized" class="DefaultLayout container mx-auto theme-default h-screen grid">
     <Navigation />
     <RouterView />
   </main>
 </template>
+
+<style>
+.DefaultLayout {
+  grid-template-rows: min-content 1fr;
+}
+</style>
