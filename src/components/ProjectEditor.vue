@@ -2,14 +2,12 @@
 import { nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { VCheckbox, VSortArray, VTags } from 'vue-design-test'
-import { Project } from '~/models/Project'
-
-
-const { t } = useI18n()
-
-const emit = defineEmits(['update:project'])
+import type { Project } from '~/models/Project'
 
 const props = defineProps<{ project: Project }>()
+const emit = defineEmits(['update:project'])
+
+const { t } = useI18n()
 
 const project = reactive(props.project)
 const stagesRef = ref(null as unknown as Element)
@@ -86,7 +84,6 @@ const deleteStage = (id: string) => {
 }
 
 watch(project, (p: Project) => emit('update:project', p))
-
 </script>
 
 <template>
@@ -104,16 +101,24 @@ watch(project, (p: Project) => emit('update:project', p))
           <div class="ProjectEditor__stage-card">
             <div class="justify-self-end">
               Id:
-            </div><input :value="id" class="w-full" required @mousedown.stop=""
+            </div><input
+              :value="id" class="w-full" required @mousedown.stop=""
               @change="changeId(id, ($event.target as HTMLInputElement).value)"
-              @keydown.escape="($event.target as HTMLInputElement).value = id">
+              @keydown.escape="($event.target as HTMLInputElement).value = id"
+            >
             <div>{{ t('project.stage.name') }}:</div>
-            <input class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, $event.target.value)"
-              @keydown.escape="($event.target as HTMLInputElement).value = name">
-            <input type="color" class="ProjectEditor__stage-card-color" :value="color || '#ffffff'"
-              @input="changeColor(id, $event.target.value)">
-            <VCheckbox :model-value="final" class="ProjectEditor__stage-card-final"
-              @update:model-value="toggleFinal(id)">
+            <input
+              class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, $event.target.value)"
+              @keydown.escape="($event.target as HTMLInputElement).value = name"
+            >
+            <input
+              type="color" class="ProjectEditor__stage-card-color" :value="color || '#ffffff'"
+              @input="changeColor(id, $event.target.value)"
+            >
+            <VCheckbox
+              :model-value="final" class="ProjectEditor__stage-card-final"
+              @update:model-value="toggleFinal(id)"
+            >
               <div style="grid-column: 1;">
                 {{ t('project.stage.isFinal') }}
               </div>
