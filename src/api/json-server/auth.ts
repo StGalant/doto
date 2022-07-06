@@ -28,15 +28,7 @@ const login = async (email: string, password: string): Promise<User> => {
   defaults.headers.Authorization = `Bearer ${token}`
   currentUser = { email, token, id }
   authCallBacks.forEach(cb => cb(currentUser))
-  setInterval(()=> { 
-    authApi.get<User>('')
-      .then( u => currentUser = u)
-      .catch(() => {
-        currentUser = null
-        localStorage.removeItem('user')
-        authCallBacks.forEach(cb => cb(currentUser))
-      })
-  }, 600000)
+
   return { email, token, id }
 }
 
@@ -74,6 +66,16 @@ const subscribe = (cb: AuthCallback) => {
 const unsubscribe = (cb: AuthCallback) => {
   authCallBacks.delete(cb)
 }
+
+setInterval(() => {
+  if (!currentUser)
+    return
+  authApi.get<User>(loginPath)
+    .then(u => currentUser = u)
+    .catch(() => {
+      logout()
+    })
+}, 600000)
 
 export {
   authInit,
