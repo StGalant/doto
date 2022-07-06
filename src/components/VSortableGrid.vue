@@ -9,11 +9,11 @@ const props = withDefaults(defineProps<{
   name?: string
   dragSensitivity?: number
   cols?: number
-  rowHeight?: string
+  rowHeight?: string | number
   gap?: string | number
 }>(), { dragSensitivity: 2, namespace: '', name: '', cols: 1, rowHeight: '6rem' })
 
-const emit = defineEmits(['dragStart', 'dragEnd', 'dragItem', 'update:item'])
+const emit = defineEmits(['dragStart', 'dragEnd', 'dragItem', 'dropItem'])
 
 enum State {
   idle,
@@ -263,7 +263,7 @@ const onDragCancel = (global: boolean) => {
 const onDrop = (data: DragData) => {
   // if drop one the same place do nothing
   if (placeholderIndex.value !== draggedIndex)
-    emit('update:item', { ...data, insertIndex: placeholderIndex.value } as DragData)
+    emit('dropItem', { ...data, insertIndex: placeholderIndex.value } as DragData)
 }
 
 // TODO: handle items update during dragging
