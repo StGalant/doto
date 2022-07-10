@@ -7,6 +7,7 @@ withDefaults(
     label: string
     placeholder?: string
     type?: string
+    name?: string
   }>(),
   {
     placeholder: ' ',
@@ -27,17 +28,15 @@ const emitValue = (e: Event) => {
 </script>
 
 <template>
-  <div class="VInput rounded" @click="focus">
-    <div>
+  <div class="VInput" @click="focus">
+    <div class="VInput__wrapper">
       <slot name="left" />
-    </div>
-    <div class="relative flex-grow h-full flex flex-row">
-      <input ref="input" :type="type" :aria-label="label" :placeholder="placeholder" :value="modelValue" @input="emitValue">
-      <div aria-hidden="true" class="VInput__label">
-        {{ label }}
+      <div class="relative flex-grow h-full flex flex-row">
+        <input ref="input" :type="type" :aria-label="label" :placeholder="placeholder" :value="modelValue" :name="name" @input="emitValue">
+        <div aria-hidden="true" class="VInput__label">
+          {{ label }}
+        </div>
       </div>
-    </div>
-    <div>
       <slot />
     </div>
   </div>
@@ -45,18 +44,27 @@ const emitValue = (e: Event) => {
 
 <style>
 .VInput {
+  height: 3rem;
+}
+
+.VInput__wrapper {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  height: 3rem;
-  box-shadow: inset 0px 0px 4px -2px rgb(0, 0, 0);
-  margin: 0.1rem;
-  padding: 0.2rem 0.5rem;
+  height: 100%;
+  width: 100%;
 }
 
 .VInput input {
   width: 100%;
   align-self: end;
+  outline: none;
+  margin-bottom: 0.1rem;
+  text-align: inherit;
+  background-color: inherit;
+}
+.VInput:active {
+  outline: none;
 }
 
 .VInput,
@@ -68,8 +76,8 @@ const emitValue = (e: Event) => {
   position: absolute;
   display: flex;
   align-items: center;
-  width: max-content;
-  height: 0.8rem;
+  width: 100%;
+  height: 1.6rem;
   transform: scale(0.8);
   transform-origin: left;
   top: 0;
@@ -77,9 +85,18 @@ const emitValue = (e: Event) => {
   transition: height 0.1s, transform 0.1s;
 }
 
-.VInput:focus-within {
-  box-shadow: inset 0px 0px 2px 1px var(--color-action-0);
+.VInput[text~="center"] .VInput__label,
+.VInput.text-center .VInput__label {
+  justify-content: center;
+  transform-origin: center;
 }
+
+.VInput[text~="right"] .VInput__label,
+.VInput.text-right .VInput__label {
+  justify-content: right;
+  transform-origin: right;
+}
+
 .VInput:focus-within .VInput__label {
   color: var(--color-action-0);
   opacity: 1;
@@ -90,5 +107,9 @@ const emitValue = (e: Event) => {
   transform: scale(1);
   opacity: 0.5;
   height: 100%;
+}
+
+.VInput input:autofill ~ .VInput__label {
+  transition: none;
 }
 </style>
