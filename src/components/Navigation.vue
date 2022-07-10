@@ -61,6 +61,7 @@ const toggleLocales = () => {
 <style>
 .Navigation {
   width: 100%;
+  color: var(--color-brand-0);
 }
 
 .Navigation__wrapper {

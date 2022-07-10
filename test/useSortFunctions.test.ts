@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { useSortFunctions } from '~/composables/useSortFunctions'
+import { createSortFunctions } from '~/composables/createSortFunctions'
 
 interface TestObj {
   title: string
@@ -8,14 +8,14 @@ interface TestObj {
 
 describe('UseSortFunctions', () => {
   it('create sortBy functions', () => {
-    const sf = useSortFunctions<TestObj>(['title', 'id'])
+    const sf = createSortFunctions<TestObj>(['title', 'id'])
 
     expect(sf.title).toBeTypeOf('function')
     expect(sf.id).toBeTypeOf('function')
   })
 
   it('sorts array by..', () => {
-    const sf = useSortFunctions<TestObj>(['title', 'id'])
+    const sf = createSortFunctions<TestObj>(['title', 'id'])
 
     const objs: TestObj[] = [
       { title: 'A', id: 10 },

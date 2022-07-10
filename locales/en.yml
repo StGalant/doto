@@ -1,20 +1,30 @@
-nav:
-  about: About
-not-found: Path not found
+error:
+  notAuth: Authentication needed
 form:
+  button:
+    confirm: 'Yes'
+    edit: Edit
+    login: Login
+    'no': 'No'
+    save: Save
+    'yes': 'Yes'
   input:
     email: E-mail address
     password: Password
-  button:
-    login: Login
+  modifiedAlert: Changes will not be saved! Are you sure?
+nav:
+  about: About
+not-found: Path not found
 project:
-  new-heading: Create new project
-  title: Title
   content: Description
-  tags: Tags
-  stages: Stages
+  new: Create new project
   stage:
-    name: Name
     isFinal: final
-error:
-  notAuth: Authentication needed
+    name: Name
+  stages: Stages
+  tags: Tags
+  title: Title
+projects:
+  add: Add new project
+task:
+  modified: modified

@@ -12,7 +12,7 @@ const userdb = YAML.parse(fs.readFileSync('json-server/users.yaml', 'utf-8'))
 server.use(jsonServer.defaults())
 server.use(bodyParser.json())
 const SECRET_KEY = '1234567890'
-const expiresIn = '1h'
+const expiresIn = '1d'
 
 function createToken(payload) {
   return jwt.sign(payload, SECRET_KEY, { expiresIn })
@@ -27,7 +27,8 @@ function refreshToken(token) {
     const decodedToken = verifyToken(token)
     return createToken({ email: decodedToken.email, id: decodedToken.id })
   }
-  catch (_err) {
+  catch (err) {
+    console.error(err)
     return null
   }
 }

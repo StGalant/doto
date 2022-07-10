@@ -3,7 +3,44 @@
 @import '~/styles/color-theme-success.css';
 @import '~/styles/color-theme-warning.css';
 @import '~/styles/typography.css';
+@import '~/styles/tooltips.css';
+
+
+:root {
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-action-0);
+}
+
+h1 {
+  color: var(--color-text-heading);
+}
+
+button:disabled {
+  filter: grayscale(.7);
+}
+
+input:autofill {
+  background: none;
+}
 
 *:focus {
   outline: none;
+}
+
+input,
+textarea {
+  border: 2px solid;
+  border-color: var(--color-input-border, var(--color-text-secondary))
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--color-input-focus-border, var(--color-action-0))
+}
+
+.invisible {
+  visibility: hidden;
 }

@@ -12,10 +12,10 @@ if (!import.meta.env.SSR) {
 </script>
 
 <template>
+  <header class=" container w-full mx-auto">
+    <Navigation />
+  </header>
   <main v-if="initialized" class="DefaultLayout theme-default h-screen grid">
-    <header class=" container w-full mx-auto">
-      <Navigation />
-    </header>
     <RouterView />
   </main>
 </template>

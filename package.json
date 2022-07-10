@@ -23,7 +23,6 @@
     "mande": "^2.0.2",
     "pinia": "^2.0.14",
     "vue": "^3.2.37",
-    "vue-design-test": "github:StGalant/vue-design-test",
     "vue-i18n": "^9.1.10",
     "vue-router": "^4.1.0"
   },

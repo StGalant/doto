@@ -67,15 +67,44 @@ const unsubscribe = (cb: AuthCallback) => {
   authCallBacks.delete(cb)
 }
 
+// refresh token
 setInterval(() => {
   if (!currentUser)
     return
+
+  const r = localStorage.getItem('token-refresh-time')
+  const now = new Date()
+
+  if (r) {
+    const rd = new Date(r)
+    if (rd.valueOf()) {
+      if ((now.valueOf() - rd.valueOf()) < 3500000)
+        return
+    }
+  }
+
   authApi.get<User>(loginPath)
-    .then(u => currentUser = u)
-    .catch(() => {
-      logout()
+    .then((u) => {
+      currentUser = u
+      localStorage.setItem('user', JSON.stringify(currentUser))
+      localStorage.setItem('token-refresh-time', now.toJSON())
     })
-}, 600000)
+    .catch((err: any) => {
+      // if not network error
+      if (!(err instanceof TypeError))
+        logout()
+    })
+}, 3600000)
+
+window.addEventListener('storage', (ev: StorageEvent) => {
+  if (ev.key === 'user') {
+    const user = JSON.parse(ev.newValue || '')
+    if (user.token)
+      defaults.headers.Authorization = `Bearer ${user.token}`
+    else
+      defaults.headers.Authorization = ''
+  }
+})
 
 export {
   authInit,

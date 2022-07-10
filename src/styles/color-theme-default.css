@@ -1,17 +1,26 @@
 html, .theme-default {
   /* Brand colors */
-  --color-brand-0: hsl(0, 0%, 50%);
-  --color-brand-1: hsl(0, 0%, 75%);
-  --color-brand-2: rgb(16, 135, 117);
+  --color-brand-0:  hsl(230deg,80%,62%);
+  --color-brand-1: hsl(230deg,56.9%,61.8%);
+  --color-brand-2: hsl(230deg,56.9%,61.8%);
   --color-brand-contrast-0: #F3F4F6;
   --color-brand-contrast-1: #F3F4F6;
   --color-brand-contrast-2: #F3F4F6;
   /* Main colors */
-  --color-background: #F3F4F6;
+  --color-background: #FFFFFF;
   --color-background-secondary: #E5E5E5;
   --color-text: #111827;
   --color-text-secondary: #4B5563;
-  --color-text-heading: #171717;
+  --color-text-heading: hsl(230deg,50%,40%);
+  /* inputs colors */
+  --color-input-text: #111827;
+  --color-input-focus-text: #111827;
+  --color-input-background: transparent;
+  --color-input-focus-background: transparent;
+  --color-input-border: hsl(230deg, 80%, 85%);
+  --color-input-focus-border: hsl(230deg, 90%, 70%);
+  /* border colors */
+  --color-border: hsl(230deg,80%,62%);
   /* Action colors */
   --color-action-0: #3B82F6;
   --color-action-1: #60A5FA;
@@ -21,26 +30,6 @@ html, .theme-default {
   --color-action-contrast-1: #F3F4F6;
   --color-action-contrast-2: #111827;
   --color-action-contrast-3: #374151;
-}
-
-:root {
-  color: var(--color-text);
-}
-
-a {
-  color: var(--color-action-0);
-}
-
-h1 {
-  color: var(--color-text-heading);
-}
-
-button:disabled {
-  filter: grayscale(.7);
-}
-
-input:autofill {
-  background: none;
 }
 /* For auto theming support */
 /*@media (prefers-scheme: dark) {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { VButton } from 'vue-design-test'
 import { useRouter } from 'vue-router'
+import VButton from '~/components/VButton.vue'
 import { newProject } from '~/models/Project'
 import { createProject } from '~/api'
 import ProjectEditor from '~/components/ProjectEditor.vue'
@@ -32,26 +32,24 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div class="container">
-    <div class="NewProject__wrapper mx-auto">
-      <div>
-        <h1 class="text-2xl">
-          {{ t('project.new-heading') }}
-        </h1>
-        <div class="NewProject__form-buttons">
-          <VButton @click="onSubmit" @keydown.enter="onSubmit">
-            {{ t('form.button.create') }}
-          </VButton>
-          <VButton secondary>
-            {{ t('form.button.cancel') }}
-          </VButton>
-          <div v-if="error" class="theme-danger">
-            {{ t(error) }}
-          </div>
+  <div class="container mx-auto w-full">
+    <div class="flex w-200 items-baseline justify-between">
+      <h1 class="text-2xl">
+        {{ t('project.new') }}
+      </h1>
+      <div class="NewProject__form-buttons text-xl">
+        <div class="btn" @click="onSubmit" @keydown.enter="onSubmit">
+          {{ t('form.button.create') }}
+        </div>
+        <div class="btn secondary">
+          {{ t('form.button.cancel') }}
+        </div>
+        <div v-if="error" class="theme-danger">
+          {{ t(error) }}
         </div>
       </div>
-      <ProjectEditor v-model:project="project" />
     </div>
+    <ProjectEditor v-model:project="project" class="w-200" />
   </div>
 </template>
 
@@ -68,7 +66,6 @@ const onSubmit = async () => {
 .NewProject__form-buttons {
   display: flex;
   justify-content: center;
-  gap: 2rem;
   grid-column: span 2;
 }
 
@@ -108,33 +105,5 @@ const onSubmit = async () => {
 
 .NewProject__stage-card-color {
   grid-column: span 2;
-}
-.add-button {
-  grid-column: 3;
-  grid-row: 1/5;
-  display: grid;
-  place-items: center;
-  padding: .25rem;
-  font-size: 2rem;
-  font-weight: bolder;
-  opacity: .5;
-  cursor: pointer;
-}
-
-.add-button:hover {
-  opacity: 1;
-  box-shadow: inset 0 0 0 1px lightgray;
-  color: var(--color-action-0);
-}
-
-.delete-button {
-  grid-column: -1;
-  opacity: .5;
-  cursor: pointer;
-}
-
-.delete-button:hover {
-  opacity: 1;
-  color: var(--color-action-0);
 }
 </style>

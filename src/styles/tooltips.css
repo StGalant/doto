@@ -1,0 +1,13 @@
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  transform: translate3d(0, -120%, 0);
+  z-index: 1000;
+  padding: 0.1rem .25rem;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  color: black;
+  background-color: aliceblue;
+  font-size: .8rem;
+  font-family: Consolas , Noto, sans-serif;
+}

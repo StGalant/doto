@@ -6,28 +6,68 @@ import type { Task } from '~/models/Task'
 const { collections: { tasks: { path } } } = config
 const api = mande(path)
 
-export const loadTasks = async (id: string) => {
-  try {
-    return await api.get<Task[]>(`/?projectId=${id}`)
-  }
-  catch (err: any) {
-    handleError(err)
+export interface TaskUpdateRecord {
+  task: Task
+  reason: 'created' | 'updated' | 'deleted'
+}
+
+export type TaskCallback = (t: TaskUpdateRecord[]) => void
+
+const subs = new Map<string, Set<TaskCallback>>()
+
+const sendUpdateTask = (projectId: string, tr: TaskUpdateRecord) => {
+  subs.get(String(projectId))?.forEach(cb => cb([tr]))
+}
+
+export const subscribe = (projectId: string, cb: TaskCallback) => {
+  projectId = String(projectId)
+  const projectSubs = subs.get(projectId)
+
+  if (projectSubs)
+    projectSubs.add(cb)
+  else
+    subs.set(projectId, new Set<TaskCallback>().add(cb))
+}
+
+export const unsubscribe = (projectId: string, cb: TaskCallback) => {
+  projectId = String(projectId)
+
+  const projectSubs = subs.get(projectId)
+  if (projectSubs) {
+    projectSubs.delete(cb)
+    if (!projectSubs.size)
+      subs.delete(projectId)
   }
 }
 
-export const createTask = async (task: Task) => {
+export const loadTasks = async (projectId: string) => {
   try {
-    await api.post(task)
+    return await api.get<Task[]>(`/?projectId=${projectId}`)
+  }
+  catch (err: any) {
+    throw handleError(err)
+  }
+}
+
+export const createTask = async (_task: Task) => {
+  try {
+    const createdAt = new Date().toJSON()
+    const updatedAt = createdAt
+    const task = await api.post<Task>({ ..._task, createdAt, updatedAt })
+    sendUpdateTask(task.projectId, { task, reason: 'created' })
     return task
   }
   catch (err: any) {
-    handleError(err)
+    const error = handleError(err)
+    throw error.message
   }
 }
 
-export const updateTask = async (task: Task) => {
+export const updateTask = async (_task: Task) => {
   try {
-    await api.put(task.id, task)
+    const updatedAt = new Date().toJSON()
+    const task = await api.put<Task>(_task.id, { ..._task, updatedAt })
+    sendUpdateTask(task.projectId, { task, reason: 'updated' })
     return task
   }
   catch (err: any) {
@@ -37,17 +77,21 @@ export const updateTask = async (task: Task) => {
 
 export const patchTask = async (id: string, data: any) => {
   try {
-    await api.patch(id, data)
-    return true
+    const updatedAt = new Date().toJSON()
+    const task = await api.patch<Task>(id, { ...data, updatedAt })
+    sendUpdateTask(task.projectId, { task, reason: 'updated' })
+    return task
   }
   catch (err: any) {
     handleError(err)
   }
 }
 
-export const deleteTask = async (id: string) => {
+export const deleteTask = async (task: Task) => {
   try {
-    await api.delete(id)
+    await api.delete(task.projectId)
+    sendUpdateTask(task.projectId, { task, reason: 'deleted' })
+
     return true
   }
   catch (err: any) {

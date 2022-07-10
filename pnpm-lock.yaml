@@ -35,7 +35,6 @@ specifiers:
   vite-ssg-sitemap: ^0.2.7
   vitest: ^0.13.1
   vue: ^3.2.37
-  vue-design-test: github:StGalant/vue-design-test
   vue-i18n: ^9.1.10
   vue-router: ^4.1.0
   vue-tsc: ^0.36.1
@@ -50,7 +49,6 @@ dependencies:
   mande: 2.0.2
   pinia: 2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
   vue: 3.2.37
-  vue-design-test: github.com/StGalant/vue-design-test/afe695f4bcc0a58c7286258d41392e6694993641
   vue-i18n: 9.1.10_vue@3.2.37
   vue-router: 4.1.0_vue@3.2.37
 
@@ -8606,15 +8604,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  github.com/StGalant/vue-design-test/afe695f4bcc0a58c7286258d41392e6694993641:
-    resolution: {tarball: https://codeload.github.com/StGalant/vue-design-test/tar.gz/afe695f4bcc0a58c7286258d41392e6694993641}
-    name: vue-design-test
-    version: 0.0.6
-    dependencies:
-      '@vueuse/core': 8.7.5_vue@3.2.37
-      vue: 3.2.37
-      vue-router: 4.1.0_vue@3.2.37
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-    dev: false

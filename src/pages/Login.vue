@@ -2,7 +2,8 @@
 import { ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { VButton, VInput } from 'vue-design-test'
+import VButton from '~/components/VButton.vue'
+import VInput from '~/components/VInput.vue'
 import { useUserStore } from '~/store/user'
 
 const { t } = useI18n()
@@ -80,15 +81,17 @@ const onSubmit = async () => {
 }
 
 .Login__form .VInput input {
-  border-bottom: 1px solid currentColor;
+  border: none;
+  border-bottom: 2px solid var(--color-input-border);
 }
 
 .Login__form .VInput input:focus {
-  border-bottom: 1px solid var(--color-action-1);
+  border: none;
+  border-bottom: 2px solid var(--color-input-focus-border);
 }
 
 .Login__form VInput:focus-within .VInput__label {
-  color: var(--color-action-0);
+  color: var(--color-input-focus-border);
 }
 
 .Login__form::before {

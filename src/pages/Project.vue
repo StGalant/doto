@@ -1,42 +1,38 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { getProject } from '~/composables/getProject'
 import VPlusMinus from '~/components/VPlusMinus.vue'
 import VSortableGrid from '~/components/VSortableGrid.vue'
 import type { Task } from '~/models/Task'
-import { useUserStore } from '~/store/user'
-import type { User } from '~/models/User'
-import type { Project } from '~/models/Project'
+import { newTask } from '~/models/Task'
 import type { DragData } from '~/composables/useDragNDrop'
+import { getTasks } from '~/composables/getTasks'
+import { tasks as tasksApi } from '~/api'
+import TaskCard from '~/components/TaskCard.vue'
+import VButton from '~/components/VButton.vue'
 
 const props = defineProps<{ projectId: string }>()
 
-const { user } = useUserStore()
+const { updateTask } = tasksApi
+const { t } = useI18n()
+// const { user } = useUserStore()
 
 const { project, error, isPending } = getProject(props.projectId)
 
-const projectTasks = ref<any[]>([{
-  id: '1',
-  projectId: '1',
-  ownwerId: '1',
-  stageId: 'IDEA',
-  order: 100,
-  createdAt: '',
-  updatedAt: '',
-  tags: [],
-  content: 'Lorem ipsum',
-}])
+const { tasks: projectTasks } = getTasks(props.projectId)
 
 const tasks = computed(() => {
   if (!project.value)
     return {}
 
   const t: any = {}
+  const sortedTasks = [...projectTasks.value].sort((a, b) => a.order - b.order)
   project.value.stages.forEach((stage) => {
     t[stage.id] = []
   })
 
-  projectTasks.value.reduce((t, task) => {
+  sortedTasks.reduce((t, task) => {
     t[task.stageId].push(task)
     return t
   }, t)
@@ -71,61 +67,66 @@ const beginSplitDrag = () => {
 const taskDragged = ref(false)
 const dragTaskStart = () => taskDragged.value = true
 const dragTaskEnd = () => taskDragged.value = false
-// open task view
-const currentTask = ref<Task | null>(null)
-const taskFormMode = ref<'view' | 'edit' | 'new'>('view')
 
-const modalWrapperRef = ref(null as unknown as Element)
-const closeTaskForm = (e: Event) => {
-  if (e.target !== modalWrapperRef.value)
-    return
-  currentTask.value = null
-  document.removeEventListener('click', closeTaskForm)
+// task modal state
+const currentTask = ref<Task | null>(null)
+const taskModalOpen = ref(false)
+const confirmOpen = ref(false)
+const currentTaskModified = ref(false)
+
+const onCloseTaskForm = (force = false) => {
+  if (!force && currentTaskModified.value) {
+    confirmOpen.value = true
+  }
+  else {
+    taskModalOpen.value = false
+    confirmOpen.value = false
+    currentTask.value = null
+  }
 }
 
 const openTaskForm = (task: Task) => {
   if (taskDragged.value)
     return
   currentTask.value = task
-  taskFormMode.value = 'view'
-  document.addEventListener('click', closeTaskForm)
+  currentTaskModified.value = false
+  taskModalOpen.value = true
 }
-
-onUnmounted(() => document.removeEventListener('click', closeTaskForm))
 
 // add task
 const addTask = (stageId: string) => {
-  const newTask = {
-    id: '',
-    projectId: (project.value as Project).id,
-    ownwerId: (user as User).id,
-    stageId,
-    tags: [],
-    content: '',
-    order: -1,
-    createdAt: '',
-    updatedAt: '',
-  } as Task
+  if (!project.value)
+    return
+  const task = newTask(project.value.id)
+  task.stageId = stageId
+  openTaskForm(task)
 }
 
 const updateItem = (stageId: string, data: DragData) => {
-  const i = projectTasks.value.findIndex(t => t.id === data.id)
-  if (i >= 0) {
-    projectTasks.value[i].stageId = stageId
-    let order
-    if (data.insertIndex && tasks.value[stageId]) {
-      const t = tasks.value[stageId]
-      if (data.insertIndex === tasks.value[stageId].length)
-        order = t[t.length - 1].order + 100
+  const task = projectTasks.value.find(t => t.id === data.id)
+  const ii = data.insertIndex || 0
+  const t = tasks.value[stageId]
 
-      else if (data.insertIndex === 0)
-        order = t[0] ? t[0].order / 2 : 100
+  if (task) {
+    let order = 0
 
-      else
-        order = (t[data.insertIndex].order - t[data.insertIndex - 1].order) / 2
-
-      projectTasks.value[i].order = order
+    if (ii > 0 && ii < (t.length - 1)) {
+      order = (t[ii].order + t[ii + 1].order) / 2
     }
+    else if (ii === 0) {
+      const iiOrder = t[ii]?.order || 2000
+      order = iiOrder / 2
+    }
+    else if (ii >= (t.length - 1) && ii > 0) {
+      order = t[t.length - 1].order + 1000
+    }
+
+    task.stageId = stageId
+    task.order = order
+    updateTask(task)
+  }
+  else {
+    console.warn('task not exist: ', data, projectTasks.value)
   }
 }
 
@@ -174,7 +175,6 @@ let projectStagesIntObserver
 
 onMounted(() => {
   projectStagesIntObserver = new IntersectionObserver((entries) => {
-    console.log(entries)
     entries.forEach((e) => {
       if (e.target === projectStagesLeftRef.value)
         projectStagesLeftVisible.value = e.intersectionRatio === 1
@@ -229,18 +229,23 @@ onMounted(() => {
             </h1>
             <div class="Project__stage-columns-toggle" @click="toggleStageViewRowHeight(stage.id)">
               <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_1" i="tabler-square" />
-              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_2" i="tabler-layout-rows" />
+              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_2" i="tabler-layout-rows" data-tooltip="Narrow Cards" />
             </div>
             <div class="Project__stage-columns-toggle" @click="toggleStageViewColumns(stage.id)">
               <div v-if="stageView[stage.id].columns === 1" i="tabler-columns" />
               <div v-if="stageView[stage.id].columns === 2" i="tabler-align-justified" />
             </div>
-            <VPlusMinus v-if="!stage.final" class="Project__add-stage-button w-5 h-5 m-1 opacity-50 cursor-pointer" @click="addTask(stage.id)" />
+            <VPlusMinus
+              v-if="!stage.final"
+              class="Project__add-stage-button w-5 h-5 m-1 opacity-50 cursor-pointer"
+              @click="addTask(stage.id)"
+            />
           </div>
           <VSortableGrid
             :items="tasks[stage.id]"
             :cols="stageView[stage.id].columns"
             :row-height="stageView[stage.id].rowHeight"
+            :gap="1"
             @drag-start="dragTaskStart"
             @drag-end="dragTaskEnd"
             @drop-item="updateItem(stage.id, $event)"
@@ -258,14 +263,31 @@ onMounted(() => {
       <div ref="projectStagesRightRef" class="w-0" />
     </div>
     <teleport to="body">
-      <div v-if="currentTask" ref="modalWrapperRef" class="Project__modal">
-        <div class="Project__task-form md:w-120 sm:w-full">
-          <textarea v-show="taskFormMode !== 'view'" :value="currentTask.content" :disabled="taskFormMode === 'view'" />
-          <div v-show="taskFormMode === 'view'">
-            {{ currentTask.content }}
+      <div v-if="taskModalOpen" class="Project__modal" @click.self="onCloseTaskForm()">
+        <div class="w-120">
+          <TaskCard
+            v-if="project"
+            :task="currentTask"
+            :stages="project.stages"
+            @save-task="onCloseTaskForm(true)"
+            @close="onCloseTaskForm()"
+            @modified="currentTaskModified = true"
+          />
+        </div>
+      </div>
+      <div v-if="confirmOpen" class="Project__modal" @click.self="confirmOpen = false">
+        <div class="w-40 h-30 theme-danger">
+          <div class="text-center">
+            {{ t('form.modifiedAlert') }}
           </div>
-          <div v-if="taskFormMode === 'view'" i="carbon-edit" @click="taskFormMode = 'edit'" />
-          <div v-if="taskFormMode !== 'view'" i="clarity-eye-solid" @click="taskFormMode = 'view'" />
+          <div class="flex space-around">
+            <VButton @click="onCloseTaskForm(true)">
+              {{ t('form.button.yes') }}
+            </VButton>
+            <VButton @click="confirmOpen = false">
+              {{ t('form.button.no') }}
+            </VButton>
+          </div>
         </div>
       </div>
     </teleport>

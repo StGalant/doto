@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { nextTick, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { VCheckbox, VSortArray, VTags } from 'vue-design-test'
+import VCheckbox from '~/components/VCheckbox.vue'
+import VSortArray from '~/components/VSortArray.vue'
+import VTags from '~/components/VTags.vue'
 import type { Project } from '~/models/Project'
 
 const props = defineProps<{ project: Project }>()
@@ -87,53 +89,53 @@ watch(project, (p: Project) => emit('update:project', p))
 </script>
 
 <template>
-  <form class="ProjectEditor__form p-2 mt-4" @submit.prevent="">
-    <label>{{ t('project.title') }}</label>
+  <form class="ProjectEditor__form p-2 mt-4" v-bind="$attrs" @submit.prevent="">
+    <label>{{ t('project.title') }}:</label>
     <input v-model="project.title" name="title" :label="t('project.title')">
-    <label>{{ t('project.content') }}</label>
+    <label>{{ t('project.content') }}:</label>
     <textarea v-model="project.content" name="content" />
-    <label>{{ t('project.tags') }}</label>
-    <VTags v-model="project.tags" />
-    <label>{{ t('project.stages') }}</label>
-    <div ref="stagesRef" class="ProjectEditor__stages-list">
-      <VSortArray :items="project.stages" class="gap-2" @update:item="moveStage">
-        <template #default="{ item: { id, name, color, final } }">
-          <div class="ProjectEditor__stage-card">
-            <div class="justify-self-end">
-              Id:
-            </div><input
-              :value="id" class="w-full" required @mousedown.stop=""
-              @change="changeId(id, ($event.target as HTMLInputElement).value)"
-              @keydown.escape="($event.target as HTMLInputElement).value = id"
-            >
-            <div>{{ t('project.stage.name') }}:</div>
-            <input
-              class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, $event.target.value)"
-              @keydown.escape="($event.target as HTMLInputElement).value = name"
-            >
-            <input
-              type="color" class="ProjectEditor__stage-card-color" :value="color || '#ffffff'"
-              @input="changeColor(id, $event.target.value)"
-            >
-            <VCheckbox
-              :model-value="final" class="ProjectEditor__stage-card-final"
-              @update:model-value="toggleFinal(id)"
-            >
-              <div style="grid-column: 1;">
-                {{ t('project.stage.isFinal') }}
-              </div>
-            </VCheckbox>
-            <div class="add-button" @click="addNewStage(id)">
-              +
-            </div>
-            <div class="delete-button theme-danger" @click="deleteStage(id)">
-              <div i="carbon-trash-can" />
-            </div>
-          </div>
-        </template>
-      </VSortArray>
-    </div>
+    <label>{{ t('project.tags') }}:</label>
+    <VTags v-model="project.tags" :color="true" />
+    <label>{{ t('project.stages') }}:</label>
   </form>
+  <div ref="stagesRef" class="ProjectEditor__stages-list">
+    <VSortArray :items="project.stages" class="gap-2" @update:item="moveStage">
+      <template #default="{ item: { id, name, color, final } }">
+        <div class="ProjectEditor__stage-card">
+          <div class="justify-self-end">
+            Id:
+          </div><input
+            :value="id" class="w-full" required @mousedown.stop=""
+            @change="changeId(id, ($event.target as HTMLInputElement).value)"
+            @keydown.escape="($event.target as HTMLInputElement).value = id"
+          >
+          <div>{{ t('project.stage.name') }}:</div>
+          <input
+            class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, $event.target.value)"
+            @keydown.escape="($event.target as HTMLInputElement).value = name"
+          >
+          <input
+            type="color" class="ProjectEditor__stage-card-color" :value="color || '#ffffff'"
+            @input="changeColor(id, $event.target.value)"
+          >
+          <VCheckbox
+            :model-value="final" class="ProjectEditor__stage-card-final"
+            @update:model-value="toggleFinal(id)"
+          >
+            <div style="grid-column: 1;">
+              {{ t('project.stage.isFinal') }}
+            </div>
+          </VCheckbox>
+          <div class="ProjectEditor__stage-add" @click="addNewStage(id)">
+            +
+          </div>
+          <div class="ProjectEditor__stage-delete theme-danger" @click="deleteStage(id)">
+            <div i="carbon-trash-can" />
+          </div>
+        </div>
+      </template>
+    </VSortArray>
+  </div>
 </template>
 
 <style>
@@ -183,6 +185,7 @@ watch(project, (p: Project) => emit('update:project', p))
 
 .ProjectEditor__stages-list {
   grid-column: 1 / -1;
+  overflow-y: auto;
 }
 
 .ProjectEditor__stage-card-final {
@@ -195,7 +198,7 @@ watch(project, (p: Project) => emit('update:project', p))
   grid-column: span 2;
 }
 
-.add-button {
+.ProjectEditor__stage-add {
   grid-column: 3;
   grid-row: 1/5;
   display: grid;
@@ -207,20 +210,24 @@ watch(project, (p: Project) => emit('update:project', p))
   cursor: pointer;
 }
 
-.add-button:hover {
+.ProjectEditor__stage-add:hover {
   opacity: 1;
   box-shadow: inset 0 0 0 1px lightgray;
   color: var(--color-action-0);
 }
 
-.delete-button {
+.ProjectEditor__stage-delete {
   grid-column: -1;
   opacity: .5;
   cursor: pointer;
 }
 
-.delete-button:hover {
+.ProjectEditor__stage-delete:hover {
   opacity: 1;
   color: var(--color-action-0);
+}
+
+.ProjectEditor__form label {
+  justify-self: end;
 }
 </style>

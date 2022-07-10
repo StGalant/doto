@@ -1,4 +1,192 @@
 {
-  "projects": [],
-  "tasks": []
+  "projects": [
+    {
+      "title": "Изучение Vue 3",
+      "content": "Lorem ipsum",
+      "tags": [
+        "vue-3",
+        "learning"
+      ],
+      "stages": [
+        {
+          "id": "IDEA",
+          "name": "Задумки"
+        },
+        {
+          "id": "INPROGRESS",
+          "name": "В работе"
+        },
+        {
+          "id": "DONE",
+          "name": "Завершено",
+          "final": true
+        }
+      ],
+      "active": true,
+      "membersIds": [],
+      "ownerId": 1,
+      "createdAt": "2022-07-03T13:36:14.723Z",
+      "updatedAt": "2022-07-03T13:36:14.723Z",
+      "id": 1
+    },
+    {
+      "title": "New project 1",
+      "content": "Hello new project",
+      "tags": [
+        "test",
+        "delete"
+      ],
+      "stages": [
+        {
+          "id": "IDEA",
+          "name": "Задумки"
+        },
+        {
+          "id": "INPROGRESS",
+          "name": "В работе"
+        },
+        {
+          "id": "TESTING",
+          "name": "Тестирование",
+          "color": "#ffffff",
+          "final": false
+        },
+        {
+          "id": "DONE",
+          "name": "Завершено",
+          "final": true
+        }
+      ],
+      "active": true,
+      "membersIds": [],
+      "ownerId": 1,
+      "createdAt": "2022-07-04T18:28:26.001Z",
+      "updatedAt": "2022-07-04T18:28:26.001Z",
+      "id": 2
+    },
+    {
+      "title": "1111111111",
+      "content": "11111111",
+      "tags": [
+        "11111",
+        "11111",
+        "22222"
+      ],
+      "stages": [
+        {
+          "id": "IDEA",
+          "name": "Задумки"
+        },
+        {
+          "id": "INPROGRESS",
+          "name": "В работе"
+        },
+        {
+          "id": "STAGE_0",
+          "name": "",
+          "color": "#ff0000",
+          "final": true
+        },
+        {
+          "id": "DONE",
+          "name": "Завершено",
+          "final": true
+        }
+      ],
+      "active": true,
+      "membersIds": [],
+      "ownerId": 1,
+      "createdAt": "2022-07-04T18:32:59.438Z",
+      "updatedAt": "2022-07-04T18:32:59.438Z",
+      "id": 3
+    },
+    {
+      "title": "Найти работу",
+      "content": "Здесь писать нечего",
+      "tags": [],
+      "stages": [
+        {
+          "id": "IDEA",
+          "name": "Вакансии",
+          "color": "#8000ff"
+        },
+        {
+          "id": "INPROGRESS",
+          "name": "В работе",
+          "color": "#ffff00"
+        },
+        {
+          "id": "FAILED",
+          "name": "Провалено",
+          "final": true,
+          "color": "#000000"
+        },
+        {
+          "id": "SUSSESS",
+          "name": "Удачно",
+          "color": "#00ff00",
+          "final": false
+        }
+      ],
+      "active": true,
+      "membersIds": [],
+      "ownerId": 1,
+      "createdAt": "2022-07-06T17:15:37.177Z",
+      "updatedAt": "2022-07-06T17:15:37.177Z",
+      "id": 4
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "projectId": 4,
+      "ownwerId": "",
+      "stageId": "IDEA",
+      "order": 2000,
+      "createdAt": "2022-07-07T18:14:29.195Z",
+      "updatedAt": "2022-07-10T19:56:29.038Z",
+      "tags": [
+        "vue"
+      ],
+      "content": "hh.ru"
+    },
+    {
+      "id": 2,
+      "projectId": 4,
+      "ownwerId": "",
+      "stageId": "INPROGRESS",
+      "order": 2000,
+      "createdAt": "2022-07-08T10:19:35.845Z",
+      "updatedAt": "2022-07-10T19:56:40.624Z",
+      "tags": [],
+      "content": "Зарегистрироваться в службе занятости!"
+    },
+    {
+      "id": 3,
+      "projectId": 4,
+      "ownwerId": "",
+      "stageId": "IDEA",
+      "order": 4000,
+      "createdAt": "2022-07-10T17:41:04.987Z",
+      "updatedAt": "2022-07-10T19:56:37.186Z",
+      "tags": [
+        "job",
+        "javascript",
+        "vue",
+        "css"
+      ],
+      "content": "Программист Javascript"
+    },
+    {
+      "id": 4,
+      "projectId": 4,
+      "ownwerId": "",
+      "stageId": "INPROGRESS",
+      "order": 1000,
+      "createdAt": "2022-07-10T19:24:09.149Z",
+      "updatedAt": "2022-07-10T19:56:38.959Z",
+      "tags": [],
+      "content": "Написать резюме"
+    }
+  ]
 }

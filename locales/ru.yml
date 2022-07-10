@@ -1,22 +1,41 @@
-nav:
-  about: О приложении
-not-found: Путь не найден
+error:
+  contentEmpty: Заполните содержание
+  notAuth: Нужна авторизация
 form:
+  button:
+    cancel: Отмена
+    close: Закрыть
+    confirm: Да
+    create: Создать
+    edit: Редактировать
+    login: Войти
+    'no': Нет
+    save: Сохранить
+    'yes': Да
   input:
     email: Введите адрес E-mail
     password: Введите пароль
-  button:
-    login: Войти
-    create: Создать
-    cancel: отмена
+  modifiedAlert: Изменения не будут сохнанены! Вы уверены?
+nav:
+  about: О приложении
+not-found: Путь не найден
 project:
-  new-heading: Создай новый проект
-  title: Название
   content: Описание
-  tags: Тэги
-  stages: Стадии
+  new: Создать новый проект
   stage:
-    name: Имя
     isFinal: финальная
-error:
-  notAuth: Нужна авторизация
+    name: Имя
+  stages: Стадии
+  tags: Тэги
+  title: Название
+projects:
+  add: Добавить новый проект
+task:
+  changed: изменена
+  modified: изменен
+  new: Новая задача
+tooltips:
+  largeCards: Большие карточки
+  oneColumn: Одна колонка
+  smallCards: Маленькие карточки
+  twoColumns: Две колонки
