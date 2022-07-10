@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
+import { computed, onUpdated, ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { getProject } from '~/composables/getProject'
 import VPlusMinus from '~/components/VPlusMinus.vue'
@@ -8,9 +8,10 @@ import type { Task } from '~/models/Task'
 import { newTask } from '~/models/Task'
 import type { DragData } from '~/composables/useDragNDrop'
 import { getTasks } from '~/composables/getTasks'
-import { tasks as tasksApi } from '~/api'
+import { tasksApi } from '~/api'
 import TaskCard from '~/components/TaskCard.vue'
 import VButton from '~/components/VButton.vue'
+import VTags from '~/components/VTags.vue'
 
 const props = defineProps<{ projectId: string }>()
 
@@ -173,7 +174,9 @@ const projectStagesLeftVisible = ref(true)
 const projectStagesRightVisible = ref(true)
 let projectStagesIntObserver
 
-onMounted(() => {
+onUpdated(() => {
+  if (!project.value)
+    return
   projectStagesIntObserver = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.target === projectStagesLeftRef.value)
@@ -188,17 +191,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="ProjectPage">
-    <div class="ProjectPage__project-details w-full">
-      <div v-if="isPending">
-        Loading...
+  <div v-if="isPending">
+    Loading...
+  </div>
+  <div v-if="error" class="theme-danger text-3xl font bold">
+    {{ t('project.error') }}: {{ error }}
+  </div>
+  <div v-if="!isPending && !error && project" class="ProjectPage">
+    <div class="ProjectPage__project-details w-full py-2">
+      <div class="flex w-full">
+        <h1 class="ProjectPage__title text-2xl font-semibold flex-grow">
+          {{ project.title }}
+        </h1>
+        <VButton>{{ t('form.button.edit') }}</VButton>
       </div>
-      <div v-if="error" class="theme-danger">
-        {{ error }}
-      </div>
-      <h1 class="text-3xl">
-        {{ project?.title }}
-      </h1>
+      <VTags :model-value="project.tags" :color="true" :disabled="true" />
       <p ref="contentRef" class="ProjectPage__project-content">
         {{ project?.content }}
       </p>
@@ -255,6 +262,7 @@ onMounted(() => {
                 <div class="Project__task-content text-justify">
                   {{ task.content }}
                 </div>
+                <VTags :model-value="task.tags" :color="true" :disabled="true" />
               </div>
             </template>
           </VSortableGrid>

@@ -15,12 +15,13 @@ form:
   input:
     email: Введите адрес E-mail
     password: Введите пароль
-  modifiedAlert: Изменения не будут сохнанены! Вы уверены?
+  modifiedAlert: Изменения не будут сохранены! Вы уверены?
 nav:
   about: О приложении
 not-found: Путь не найден
 project:
   content: Описание
+  error: Ошибка
   new: Создать новый проект
   stage:
     isFinal: финальная
@@ -30,6 +31,7 @@ project:
   title: Название
 projects:
   add: Добавить новый проект
+  link: Проекты
 task:
   changed: изменена
   modified: изменен

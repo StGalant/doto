@@ -1,27 +1,32 @@
 <script setup lang="ts">
 import Navigation from '~/components/Navigation.vue'
-import { useAppInit } from '~/composables/useAppInit'
-import { useUserStore } from '~/store/user'
-
-const { initialized } = useAppInit()
-if (!import.meta.env.SSR) {
-  const userStore = useUserStore()
-  Promise.allSettled([userStore.init()])
-    .then(() => initialized.value = true)
-}
 </script>
 
 <template>
-  <header class=" container w-full mx-auto">
+  <header class="DefaultHeader container mx-auto">
+    <h1 class="Logo text-2xl font-bold inline-block">
+      <RouterLink :to="{ name: 'Home' }">
+        DOTO Application
+      </RouterLink>
+    </h1>
     <Navigation />
   </header>
-  <main v-if="initialized" class="DefaultLayout theme-default h-screen grid">
+  <main class="theme-default h-screen grid">
     <RouterView />
   </main>
 </template>
 
 <style>
-.DefaultLayout {
-  grid-template-rows: min-content 1fr;
+.DefaultHeader {
+  height: 4rem;;
+  border-bottom: 3px solid var(--color-brand-1);
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto [logo] 1fr [nav];
+  gap: .5rem;
+}
+
+.Logo a {
+  color: var(--color-brand-0);
 }
 </style>

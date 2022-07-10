@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TaskEditor from '~/components/TaskEditor.vue'
 import type { Task } from '~/models/Task'
-import { tasks } from '~/api'
+import { tasksApi } from '~/api'
 import type { Stage } from '~/models/Project'
 
 type CardModes = 'view' | 'edit'
@@ -56,9 +56,9 @@ const onSaveTask = async () => {
   pending.value = true
   try {
     if (isNewTask)
-      await tasks.createTask(cTask.value)
+      await tasksApi.createTask(cTask.value)
     else
-      await tasks.updateTask(cTask.value)
+      await tasksApi.updateTask(cTask.value)
     emit('saveTask', cTask.value)
   }
   catch (err: any) {
@@ -104,7 +104,7 @@ const heading = computed(() => {
           <div>{{ heading }}</div>
         </div>
         <div class="card-header-icons flex items-center gap-1">
-          <div v-if="currentMode === 'view' && editEnable" @click="editMode">
+          <div v-if="currentMode === 'view' && editEnable" class="cursor-pointer text-sm underline" role="button" @click="editMode">
             {{ t('form.button.edit') }}
           </div>
           <div v-if="currentMode === 'edit' && modified" class="cursor-pointer text-sm underline" role="button" @click="onSaveTask">

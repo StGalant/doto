@@ -22,18 +22,20 @@ export const routes = [
     path: '/projects',
     name: 'Projects',
     component: Projects,
+    meta: { layout: 'dashboard' },
   },
   {
     path: '/projects/new',
     name: 'NewProject',
     component: NewProject,
+    meta: { layout: 'dashboard' },
   },
   {
     path: '/projects/:projectId',
     name: 'Project',
     component: Project,
     props: true,
-    meta: { layout: 'ProjectLayout' },
+    meta: { layout: 'dashboard' },
   },
   {
     path: '/about',

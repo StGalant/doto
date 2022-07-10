@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useUserStore } from './user'
-import { loadCurrentProjects } from '~/api'
+import { projectsListApi } from '~/api'
 import type { Project } from '~/models/Project'
 
 interface ProjectsStore {
@@ -9,6 +9,8 @@ interface ProjectsStore {
   updating: boolean
   error: string | null
 }
+
+const { loadCurrentProjects } = projectsListApi
 
 export const useProjectsStore = defineStore('projects', {
   state: (): ProjectsStore => {

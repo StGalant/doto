@@ -65,6 +65,7 @@ function tagToColor(tag: string): string {
       </div>
     </div>
     <input
+      v-if="!disabled"
       v-model="newTag" type="text" class="VTags__input inline-block"
       :placeholder="placeholder" :disabled="disabled" @input="filterTag" @change="createTag"
     >

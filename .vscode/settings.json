@@ -12,5 +12,10 @@
     "*.css": "postcss"
   },
   "editor.formatOnSave": false,
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "i18n-ally.extract.ignoredByFiles": {
+    "src\\router\\index.ts": [
+      "Project"
+    ]
+  }
 }

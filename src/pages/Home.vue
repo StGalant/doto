@@ -1,14 +1,18 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import { isAuthenticated } from '~/composables/isAuthenticated'
+import { useUserStore } from '~/store/user'
 
 export default defineComponent({
   setup() {
-    if (!isAuthenticated())
-      return {}
+    const user = useUserStore()
     const router = useRouter()
-    router.push({ name: 'Projects' })
+    watchEffect (() => {
+      if (user.loggedIn)
+        router.push({ name: 'Projects' })
+      else
+        router.push({ name: 'Login' })
+    })
   },
 })
 </script>

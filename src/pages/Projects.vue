@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 import { useProjectsStore } from '~/store/projects'
 import type { Project } from '~/models/Project'
 import { createSortFunctions } from '~/composables/createSortFunctions'
-import { isAuthenticated } from '~/composables/isAuthenticated'
 
 export default defineComponent({
   setup() {
@@ -18,17 +17,6 @@ export default defineComponent({
         fn = (a, b) => -1 * fn(a, b)
       return fn
     })
-
-    if (!isAuthenticated()) {
-      return {
-        store: null,
-        projects: [],
-        t,
-        sortBy,
-        sortDir,
-        sortFn,
-      }
-    }
 
     const store = useProjectsStore()
     store.loadProjects()

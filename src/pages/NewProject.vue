@@ -4,12 +4,12 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import VButton from '~/components/VButton.vue'
 import { newProject } from '~/models/Project'
-import { createProject } from '~/api'
+import { projectApi } from '~/api'
 import ProjectEditor from '~/components/ProjectEditor.vue'
 
 const { t } = useI18n()
 const router = useRouter()
-
+const { createProject } = projectApi
 const project = reactive(newProject())
 
 // Save new project

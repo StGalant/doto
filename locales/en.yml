@@ -17,6 +17,7 @@ nav:
 not-found: Path not found
 project:
   content: Description
+  error: Error
   new: Create new project
   stage:
     isFinal: final
@@ -26,5 +27,6 @@ project:
   title: Title
 projects:
   add: Add new project
+  link: Projects
 task:
   modified: modified

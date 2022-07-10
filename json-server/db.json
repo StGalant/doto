@@ -142,9 +142,9 @@
       "projectId": 4,
       "ownwerId": "",
       "stageId": "IDEA",
-      "order": 2000,
+      "order": 1000,
       "createdAt": "2022-07-07T18:14:29.195Z",
-      "updatedAt": "2022-07-10T19:56:29.038Z",
+      "updatedAt": "2022-07-10T21:28:27.164Z",
       "tags": [
         "vue"
       ],
@@ -154,10 +154,10 @@
       "id": 2,
       "projectId": 4,
       "ownwerId": "",
-      "stageId": "INPROGRESS",
+      "stageId": "IDEA",
       "order": 2000,
       "createdAt": "2022-07-08T10:19:35.845Z",
-      "updatedAt": "2022-07-10T19:56:40.624Z",
+      "updatedAt": "2022-07-10T21:28:28.172Z",
       "tags": [],
       "content": "Зарегистрироваться в службе занятости!"
     },
@@ -165,15 +165,16 @@
       "id": 3,
       "projectId": 4,
       "ownwerId": "",
-      "stageId": "IDEA",
+      "stageId": "INPROGRESS",
       "order": 4000,
       "createdAt": "2022-07-10T17:41:04.987Z",
-      "updatedAt": "2022-07-10T19:56:37.186Z",
+      "updatedAt": "2022-07-10T22:05:44.456Z",
       "tags": [
         "job",
         "javascript",
         "vue",
-        "css"
+        "css",
+        "html"
       ],
       "content": "Программист Javascript"
     },
@@ -181,12 +182,23 @@
       "id": 4,
       "projectId": 4,
       "ownwerId": "",
-      "stageId": "INPROGRESS",
-      "order": 1000,
+      "stageId": "IDEA",
+      "order": 3000,
       "createdAt": "2022-07-10T19:24:09.149Z",
-      "updatedAt": "2022-07-10T19:56:38.959Z",
+      "updatedAt": "2022-07-10T21:28:29.229Z",
       "tags": [],
       "content": "Написать резюме"
+    },
+    {
+      "id": 5,
+      "projectId": 4,
+      "ownwerId": "",
+      "stageId": "INPROGRESS",
+      "order": 3000,
+      "createdAt": "2022-07-10T20:56:18.179Z",
+      "updatedAt": "2022-07-10T20:58:17.789Z",
+      "tags": [],
+      "content": "Добавить редактирование проекта."
     }
   ]
 }

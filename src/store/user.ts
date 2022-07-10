@@ -1,6 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import type { User } from '~/models/User'
-import { authInit, login, logout } from '~/api'
+import { authApi } from '~/api'
+
+const { authInit, login, logout } = authApi
 
 export const useUserStore = defineStore('user', {
   state: (): { user: User | null } => {

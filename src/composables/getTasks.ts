@@ -1,5 +1,5 @@
 import { onUnmounted, ref, watchEffect } from 'vue'
-import { tasks as tasksApi } from '~/api'
+import { tasksApi } from '~/api'
 import type { Task } from '~/models/Task'
 
 const { loadTasks, subscribe, unsubscribe } = tasksApi
