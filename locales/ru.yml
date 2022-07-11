@@ -21,6 +21,7 @@ nav:
 not-found: Путь не найден
 project:
   content: Описание
+  edit: Редактировать проект
   error: Ошибка
   new: Создать новый проект
   stage:
@@ -34,7 +35,7 @@ projects:
   link: Проекты
 task:
   changed: изменена
-  modified: изменен
+  modified: изменена
   new: Новая задача
 tooltips:
   largeCards: Большие карточки

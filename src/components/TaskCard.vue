@@ -97,28 +97,26 @@ const heading = computed(() => {
 </script>
 
 <template>
-  <div class="TaskCard">
-    <div class="card-wrapper w-120 grid border-4">
-      <div class="card-header flex justify-between mb-1">
-        <div class="card-header-left flex gap-1">
-          <div>{{ heading }}</div>
-        </div>
-        <div class="card-header-icons flex items-center gap-1">
-          <div v-if="currentMode === 'view' && editEnable" class="cursor-pointer text-sm underline" role="button" @click="editMode">
-            {{ t('form.button.edit') }}
-          </div>
-          <div v-if="currentMode === 'edit' && modified" class="cursor-pointer text-sm underline" role="button" @click="onSaveTask">
-            {{ t('form.button.save') }}
-          </div>
-          <div i="carbon-close" class="close-icon cursor-pointer" role="button" :aria-label="t('form.button.close')" @click="onCancel" />
-        </div>
+  <div class="TaskCard border-4">
+    <div class="TaskCard__header flex justify-between mb-1">
+      <div class="flex gap-1">
+        <div>{{ heading }}</div>
       </div>
-      <TaskEditor
-        v-model="cTask" :stages="stages" :mode="currentMode"
-        :disabled="pending"
-      />
+      <div class="flex items-center gap-1">
+        <div v-if="currentMode === 'view' && editEnable" class="cursor-pointer text-sm underline" role="button" @click="editMode">
+          {{ t('form.button.edit') }}
+        </div>
+        <div v-if="currentMode === 'edit' && modified" class="cursor-pointer text-sm underline" role="button" @click="onSaveTask">
+          {{ t('form.button.save') }}
+        </div>
+        <div i="carbon-close" class="close-icon cursor-pointer" role="button" :aria-label="t('form.button.close')" @click="onCancel" />
+      </div>
     </div>
-    <div v-if="error" class="theme-danger fixed top-0">
+    <TaskEditor
+      v-model="cTask" :stages="stages" :mode="currentMode"
+      :disabled="pending"
+    />
+    <div class="TaskCard__error">
       {{ error }}
     </div>
   </div>
@@ -126,20 +124,30 @@ const heading = computed(() => {
 
 <style>
 .TaskCard {
+  position: relative;
   display: grid;
-  place-items: center;
   background-color: var(--color-background);
+  grid-template-rows: min-content [header] 1fr [card];
+  padding: .2rem .5rem .5rem .5rem;
+  border-radius: 1.2rem;
+  border-color: var(--color-border);
 }
 
-.card-header {
+.TaskCard__header {
   color: var(--color-brand-0);
 }
 
-.card-wrapper {
+.TaskCard__wrapper {
   display: grid;
   grid-template-rows: min-content [header] 1fr [card];
   padding: .2rem .5rem .5rem .5rem;
   border-radius: 1.2rem;
   border-color: var(--color-border);
+}
+
+.TaskCard__error {
+  position: absolute;
+  bottom: 120%;
+  font-weight: bold;
 }
 </style>

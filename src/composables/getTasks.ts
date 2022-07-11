@@ -1,4 +1,4 @@
-import { onUnmounted, ref, watchEffect } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import { tasksApi } from '~/api'
 import type { Task } from '~/models/Task'
 

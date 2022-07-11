@@ -93,8 +93,8 @@ watch(project, (p: Project) => emit('update:project', p))
     <label>{{ t('project.title') }}:</label>
     <input v-model="project.title" name="title" :label="t('project.title')">
     <label>{{ t('project.content') }}:</label>
-    <textarea v-model="project.content" name="content" />
-    <label>{{ t('project.tags') }}:</label>
+    <textarea v-model="project.content" name="content" class="h-50" />
+    <label class="mt-1.5">{{ t('project.tags') }}:</label>
     <VTags v-model="project.tags" :color="true" />
     <label>{{ t('project.stages') }}:</label>
   </form>
@@ -111,12 +111,12 @@ watch(project, (p: Project) => emit('update:project', p))
           >
           <div>{{ t('project.stage.name') }}:</div>
           <input
-            class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, $event.target.value)"
+            class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, ($event.target as HTMLInputElement).value)"
             @keydown.escape="($event.target as HTMLInputElement).value = name"
           >
           <input
             type="color" class="ProjectEditor__stage-card-color" :value="color || '#ffffff'"
-            @input="changeColor(id, $event.target.value)"
+            @input="changeColor(id, ($event.target as HTMLInputElement).value)"
           >
           <VCheckbox
             :model-value="final" class="ProjectEditor__stage-card-final"

@@ -9,6 +9,8 @@ export type OnErrorProjectCb = (err: any) => void
 
 const { collections: { projects: { path } } } = config
 
+const subs = new Map<string, [Set<OnChangeProjectCb>, Set<OnErrorProjectCb>]>()
+
 export const createProject = async (p: any) => {
   const user = getCurrentUser()
   if (!user)
@@ -32,29 +34,34 @@ export const createProject = async (p: any) => {
   }
 }
 
-export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: OnErrorProjectCb) => {
-  const id = _id
+export const subscribe = (id: string, c: OnChangeProjectCb, e: OnErrorProjectCb) => {
+  id = String(id)
+  const s = subs.get(id)
+  if (!s) {
+    subs.set(id, [new Set<OnChangeProjectCb>().add(c), new Set<OnErrorProjectCb>().add(e)])
+  }
+  else {
+    s[0].add(c)
+    s[1].add(e)
+  }
+}
+
+const unsubscribe = (id: string, c: OnChangeProjectCb, e: OnErrorProjectCb) => {
+  id = String(id)
+  const s = subs.get(id)
+  if (!s)
+    return
+
+  s[0].delete(c)
+  s[1].delete(e)
+  if (s[0].size === 0 && s[1].size === 0)
+    subs.delete(id)
+}
+
+export const useProject = (_id: string) => {
+  const id = String(_id)
 
   const api = mande(`${path}/${id}`)
-
-  const projectChangeCb = new Set<OnChangeProjectCb>()
-  const projectErrorCb = new Set<OnErrorProjectCb>()
-
-  const subscribe = (c?: OnChangeProjectCb, e?: OnErrorProjectCb) => {
-    if (c)
-      projectChangeCb.add(c)
-    if (e)
-      projectErrorCb.add(e)
-  }
-
-  subscribe(onChange, onError)
-
-  const unsubscribe = (c?: OnChangeProjectCb, e?: OnErrorProjectCb) => {
-    if (c)
-      projectChangeCb.delete(c)
-    if (e)
-      projectErrorCb.delete(e)
-  }
 
   const load = async () => {
     try {
@@ -67,12 +74,14 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
       if (project.ownerId !== user.id || project.membersIds?.includes(user.id))
         throw new Error('Access denied!')
 
-      projectChangeCb.forEach(cb => cb(project, 'modified'))
+      const s = subs.get(id)
+      s && s[0].forEach(cb => cb(project, 'modified'))
       return project
     }
     catch (err: any) {
       const error = handleError(err)
-      projectErrorCb.forEach(cb => cb(error.message))
+      const s = subs.get(id)
+      s && s[1].forEach(cb => cb(error.message))
       throw error
     }
   }
@@ -80,12 +89,14 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
   const update = async (project: Project) => {
     try {
       const p = await api.put<Project>({ ...project, updatedAt: new Date().toJSON() })
-      projectChangeCb.forEach(cb => cb(p, 'modified'))
+      const s = subs.get(id)
+      s && s[0].forEach(cb => cb(p, 'modified'))
       return p
     }
     catch (err: any) {
       const error = handleError(err)
-      projectErrorCb.forEach(cb => cb(error.message))
+      const s = subs.get(id)
+      s && s[1].forEach(cb => cb(error.message))
       throw error
     }
   }
@@ -93,12 +104,14 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
   const patch = async (data: any) => {
     try {
       const p = await api.patch<Project>({ ...data, updatedAt: new Date().toJSON() })
-      projectChangeCb.forEach(cb => cb(p, 'modified'))
+      const s = subs.get(id)
+      s && s[0].forEach(cb => cb(p, 'modified'))
       return p
     }
     catch (err: any) {
       const error = handleError(err)
-      projectErrorCb.forEach(cb => cb(error.message))
+      const s = subs.get(id)
+      s && s[1].forEach(cb => cb(error.message))
       throw error
     }
   }
@@ -106,20 +119,22 @@ export const useProject = (_id: string, onChange?: OnChangeProjectCb, onError?: 
   const remove = async () => {
     try {
       const p = await api.delete<Project>(id)
-      projectChangeCb.forEach(cb => cb(p, 'removed'))
+      const s = subs.get(id)
+      s && s[0].forEach(cb => cb(p, 'removed'))
       return p
     }
     catch (err: any) {
       const error = handleError(err)
-      projectErrorCb.forEach(cb => cb(error.message))
+      const s = subs.get(id)
+      s && s[1].forEach(cb => cb(error.message))
       throw error
     }
   }
 
   return {
     load,
-    subscribe,
-    unsubscribe,
+    subscribe: (c: OnChangeProjectCb, e: OnErrorProjectCb) => subscribe(id, c, e),
+    unsubscribe: (c: OnChangeProjectCb, e: OnErrorProjectCb) => unsubscribe(id, c, e),
     update,
     patch,
     remove,

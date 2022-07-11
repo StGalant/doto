@@ -124,7 +124,9 @@ const stage = computed(() => props.stages.find(s => s.id === props.modelValue.st
 .TaskForm .VSelect__dropdown {
   border-color: var(--color-input-focus-border);
 }
-
+.TaskForm .VSelect.VSelect--disabled:focus {
+  border-color: var(--color-input-border);
+}
 .TaskForm__content-wrapper {
   display: grid;
 }

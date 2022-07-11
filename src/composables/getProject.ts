@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import { projectApi } from '~/api'
 import type { Project } from '~/models/Project'
 
@@ -8,16 +8,21 @@ export function getProject(id: string) {
   const project = ref<null | Project>(null)
   const error = ref<null | string>(null)
 
-  const api = useProject(id, (p, _change) => {
+  const onChange = (p: Project, _change: any) => {
     project.value = p
-  }, (err) => {
+  }
+
+  const onError = (err: any) => {
     error.value = err
-  })
+  }
+
+  const api = useProject(id)
+  api.subscribe(onChange, onError)
 
   const isPending = ref(true)
   error.value = null
   api.load()
-    .catch((_err) => {}) // error handle by callback
+    .catch((_err) => {}) // error handled by callback
     .finally(() => {
       isPending.value = false
     })
@@ -33,6 +38,8 @@ export function getProject(id: string) {
         isPending.value = false
       })
   }
+
+  onUnmounted(() => api.unsubscribe(onChange, onError))
 
   return { project, error, isPending, save }
 }

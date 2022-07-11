@@ -12,6 +12,7 @@ import { tasksApi } from '~/api'
 import TaskCard from '~/components/TaskCard.vue'
 import VButton from '~/components/VButton.vue'
 import VTags from '~/components/VTags.vue'
+import ProjectEditForm from '~/components/ProjectEditForm.vue'
 
 const props = defineProps<{ projectId: string }>()
 
@@ -69,19 +70,48 @@ const taskDragged = ref(false)
 const dragTaskStart = () => taskDragged.value = true
 const dragTaskEnd = () => taskDragged.value = false
 
+// confirm modal state
+const confirmOpen = ref(false)
+const confirmMessage = ref('')
+const confirmCallback = ref<null | (() => void)>(null)
+
+// project modal state
+const projectModalOpen = ref(false)
+const projectModified = ref(false)
+
+const openProjectForm = () => {
+  projectModalOpen.value = true
+  projectModified.value = false
+}
+
+const onCloseProjectForm = (force = false) => {
+  if (!force && projectModified.value) {
+    confirmOpen.value = true
+    confirmMessage.value = t('form.modifiedAlert')
+    confirmCallback.value = () => { onCloseProjectForm(true) }
+  }
+  else {
+    projectModalOpen.value = false
+    confirmOpen.value = false
+    confirmCallback.value = null
+  }
+}
+
 // task modal state
 const currentTask = ref<Task | null>(null)
 const taskModalOpen = ref(false)
-const confirmOpen = ref(false)
 const currentTaskModified = ref(false)
 
 const onCloseTaskForm = (force = false) => {
   if (!force && currentTaskModified.value) {
     confirmOpen.value = true
+    confirmMessage.value = t('form.modifiedAlert')
+    confirmCallback.value = () => { onCloseTaskForm(true) }
   }
   else {
     taskModalOpen.value = false
     confirmOpen.value = false
+    confirmCallback.value = null
     currentTask.value = null
   }
 }
@@ -94,7 +124,7 @@ const openTaskForm = (task: Task) => {
   taskModalOpen.value = true
 }
 
-// add task
+// add new task
 const addTask = (stageId: string) => {
   if (!project.value)
     return
@@ -103,6 +133,7 @@ const addTask = (stageId: string) => {
   openTaskForm(task)
 }
 
+// update task stage / order
 const updateItem = (stageId: string, data: DragData) => {
   const task = projectTasks.value.find(t => t.id === data.id)
   const ii = data.insertIndex || 0
@@ -203,7 +234,9 @@ onUpdated(() => {
         <h1 class="ProjectPage__title text-2xl font-semibold flex-grow">
           {{ project.title }}
         </h1>
-        <VButton>{{ t('form.button.edit') }}</VButton>
+        <VButton @click="openProjectForm">
+          {{ t('form.button.edit') }}
+        </VButton>
       </div>
       <VTags :model-value="project.tags" :color="true" :disabled="true" />
       <p ref="contentRef" class="ProjectPage__project-content">
@@ -271,6 +304,16 @@ onUpdated(() => {
       <div ref="projectStagesRightRef" class="w-0" />
     </div>
     <teleport to="body">
+      <div v-if="projectModalOpen" class="Project__modal" @click.self="onCloseProjectForm()">
+        <div class="w-315">
+          <ProjectEditForm
+            :project="project"
+            @save="onCloseProjectForm(true)"
+            @cancel="onCloseProjectForm()"
+            @modified="projectModified = true"
+          />
+        </div>
+      </div>
       <div v-if="taskModalOpen" class="Project__modal" @click.self="onCloseTaskForm()">
         <div class="w-120">
           <TaskCard
@@ -284,15 +327,15 @@ onUpdated(() => {
         </div>
       </div>
       <div v-if="confirmOpen" class="Project__modal" @click.self="confirmOpen = false">
-        <div class="w-40 h-30 theme-danger">
-          <div class="text-center">
-            {{ t('form.modifiedAlert') }}
+        <div class="Project__modal-confirm w-80">
+          <div class="text-center mb-4">
+            {{ confirmMessage }}
           </div>
-          <div class="flex space-around">
-            <VButton @click="onCloseTaskForm(true)">
+          <div class="flex justify-around w-60 mx-auto">
+            <VButton class="w-20" @click="confirmCallback">
               {{ t('form.button.yes') }}
             </VButton>
-            <VButton @click="confirmOpen = false">
+            <VButton class="w-20" @click="confirmOpen = false">
               {{ t('form.button.no') }}
             </VButton>
           </div>
@@ -387,19 +430,24 @@ onUpdated(() => {
 }
 
 .VSortableGrid__placeholder {
-  border: 2px solid orange;
+  border-radius: 5px;
+  background-color: hsl(250deg, 80%, 90%);
+  border: 2px solid hsl(250deg, 80%, 80%);
 }
 
 .VSortableGrid__placeholder--origin {
-  border: 2px solid gray;
+  border: none;
 }
 
 .Project__task {
-  background-color: rgb(255, 245, 154);
+  background-color: var(--color-background);
   width: 100%;
   height: 100%;
   display: grid;
   padding: 1rem .1rem .5rem .5rem;
+  border-radius: 5px;
+  border: 2px solid hsl(250deg, 90%, 70%);
+  white-space: pre-wrap;
 }
 .Project__task-content {
   height: 100%;
@@ -485,5 +533,12 @@ onUpdated(() => {
 .Project__add-stage-button:hover {
   color: var(--color-action-0);
   opacity: 1;
+}
+
+.Project__modal-confirm {
+  background-color: var(--color-background);
+  border-radius: 1.2rem;
+  border: 4px solid var(--color-action-0);
+  padding: 1rem;
 }
 </style>

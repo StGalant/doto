@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     itemSelected(index) {
-      if (!this.options[this.focusItem].disabled)
+      if (!this.disabled && !this.options[this.focusItem].disabled)
         this.$emit('update:modelValue', this.options[index])
 
       this.open = false
@@ -114,15 +114,18 @@ export default {
   <div
     ref="wrapper" class="VSelect flex flex-col inline-block"
     :tabindex="tabindex"
-    :class="{ 'VSelect--open': open }"
-    @click.prevent.stop="open = !open"
-    @keydown.enter="open = (open ? open : !open)"
+    :class="{
+      'VSelect--open': open,
+      'VSelect--disabled': disabled,
+    }"
+    @click.prevent.stop="open = disabled ? false : !open"
+    @keydown.enter="open = disabled ? false : (open ? open : !open)"
   >
     <div class="flex flex-row items-center">
       <div class="w-full h-full px-2 py-1 overflow-hidden whitespace-nowrap">
         <slot :item="options[currentItem]" />
       </div>
-      <div :class="open ? 'i-carbon-chevron-up' : 'i-carbon-chevron-down'" />
+      <div v-show="!disabled" :class="open ? 'i-carbon-chevron-up' : 'i-carbon-chevron-down'" />
     </div>
 
     <div class="relative">
@@ -150,6 +153,10 @@ export default {
 <style>
 .VSelect {
   cursor: pointer;
+}
+
+.VSelect--disabled {
+  cursor:default;
 }
 
 .VSelect__dropdown {

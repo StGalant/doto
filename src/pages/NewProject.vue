@@ -29,21 +29,26 @@ const onSubmit = async () => {
     isPending.value = false
   }
 }
+
+const onCancel = () => {
+  // TODO modified check
+  router.push({ name: 'Projects' })
+}
 </script>
 
 <template>
   <div class="container mx-auto w-full">
-    <div class="flex w-200 items-baseline justify-between">
+    <div class="flex w-200 items-center justify-between my-2">
       <h1 class="text-2xl">
         {{ t('project.new') }}
       </h1>
-      <div class="NewProject__form-buttons text-xl">
-        <div class="btn" @click="onSubmit" @keydown.enter="onSubmit">
+      <div class="NewProject__form-buttons">
+        <VButton class="btn" @click="onSubmit" @keydown.enter="onSubmit">
           {{ t('form.button.create') }}
-        </div>
-        <div class="btn secondary">
+        </VButton>
+        <VButton secondary @click="onCancel">
           {{ t('form.button.cancel') }}
-        </div>
+        </VButton>
         <div v-if="error" class="theme-danger">
           {{ t(error) }}
         </div>
@@ -54,56 +59,9 @@ const onSubmit = async () => {
 </template>
 
 <style>
-.NewProject__form {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: auto 1fr;
-}
-.NewProject__form-tags {
-  grid-column: 2;
-}
-
 .NewProject__form-buttons {
   display: flex;
   justify-content: center;
-  grid-column: span 2;
-}
-
-.NewProject__stage-card {
-  overflow: hidden;
-  width: 15rem;
-  height: auto;
-  padding: 1rem 0 .25rem 1rem;
-  border: 1px solid var(--color-text-secondary);
-  background-color: var(--color-background);
-  border-radius: .25rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  /* grid-template-rows: auto auto auto 1fr; */
-  gap: 1rem;
-  align-items: center;
-}
-.VSortArray {
-  cursor: grab;
-}
-.VSortArray--moved {
-  cursor: grabbing;
-}
-[data-dont-move-please] .VSortArray-move {
-  transition: all 0s;
-}
-
-.NewProject__stages-list {
-  grid-column: 1 / -1;
-}
-
-.NewProject__stage-card-final {
-  grid-column: span 2;
-  justify-self: end;
-  align-self: end;
-}
-
-.NewProject__stage-card-color {
   grid-column: span 2;
 }
 </style>
