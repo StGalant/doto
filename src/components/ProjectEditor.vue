@@ -91,21 +91,19 @@ const deleteStage = (id: string) => {
 }
 
 watch(project, (p: Project) => emit('update:project', p))
-
-const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' })
 </script>
 
 <template>
-  <form class="ProjectEditor__form p-2 mt-4" v-bind="$attrs" @submit.prevent="">
+  <form class="ProjectEditor p-2 mt-4" v-bind="$attrs" @submit.prevent="">
     <label>{{ t('project.title') }}:</label>
-    <input v-model="project.title" name="title" :label="t('project.title')">
+    <input v-model="project.title" name="title" :label="t('project.title')" class="mb-1">
     <label>{{ t('project.content') }}:</label>
-    <textarea v-model="project.content" name="content" class="h-50" />
+    <textarea v-model="project.content" name="content" class="h-50 mb-1" />
     <label class="mt-1.5">{{ t('project.tags') }}:</label>
-    <VTags v-model="project.tags" :color="true" />
+    <VTags v-model="project.tags" :color="true" class="mb-1" />
     <label>{{ t('project.stages') }}:</label>
   </form>
-  <div ref="stagesRef" class="ProjectEditor__stages-list">
+  <div ref="stagesRef" class="ProjectEditor__stages-list pl-2">
     <VSortArray :items="project.stages" class="gap-2" @update:item="moveStage">
       <template #default="{ item: { id, name, color, final } }">
         <div class="ProjectEditor__stage-card">
@@ -151,17 +149,15 @@ const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' })
 </template>
 
 <style>
-.ProjectEditor__form {
+.ProjectEditor {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: auto 1fr;
 }
 
-.ProjectEditor__form-tags {
+.ProjectEditor-tags {
   grid-column: 2;
 }
 
-.ProjectEditor__form-buttons {
+.ProjectEditor-buttons {
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -239,7 +235,7 @@ const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' })
   color: var(--color-action-0);
 }
 
-.ProjectEditor__form label {
-  justify-self: end;
+.ProjectEditor label {
+  font-weight: 700;
 }
 </style>
