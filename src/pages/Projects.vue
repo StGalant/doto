@@ -1,11 +1,11 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useProjectsStore } from '~/store/projects'
 import type { Project } from '~/models/Project'
 import { createSortFunctions } from '~/composables/createSortFunctions'
 import VButton from '~/components/VButton.vue'
 import VTags from '~/components/VTags.vue'
+import { getProjectsList } from '~/composables/getProjectsList'
 
 export default defineComponent({
   components: { VButton, VTags },
@@ -20,17 +20,18 @@ export default defineComponent({
         fn = (a, b) => -1 * fn(a, b)
       return fn
     })
-    const store = useProjectsStore()
-    store.loadProjects()
+
+    const { projects: rawProjects, isPending } = getProjectsList()
+
     const projects = computed(() => {
-      return store.projects.slice().sort(sortFn.value)
+      return rawProjects.value.slice().sort(sortFn.value)
     })
     return {
       projects,
       sortBy,
       sortDir,
       sortFn,
-      store,
+      isPending,
       t,
     }
   },
@@ -42,7 +43,7 @@ export default defineComponent({
     <VButton class="my-2" @click="$router.push({ name: 'NewProject' })">
       {{ t('projects.add') }} <div i="carbon-add" />
     </VButton>
-    <ul v-if="!store?.loading" class="Projects__list">
+    <ul v-if="!isPending" class="Projects__list">
       <li
         v-for="p in projects" :key="p.id"
         class="Projects__card"
@@ -55,7 +56,7 @@ export default defineComponent({
         <VTags :model-value="p.tags" :color="true" :disabled="true" />
       </li>
     </ul>
-    <ul v-if="store?.loading" class="projects projects-stub">
+    <ul v-if="isPending" class="projects projects-stub">
       <li v-for="i in 5" :key="i" class="project-stub">
         <div class="project-stub-content" />
       </li>
