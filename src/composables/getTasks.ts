@@ -13,12 +13,12 @@ export const getTasks = (projectId: string) => {
       if (reason === 'created') {
         tasks.value.push(task)
       }
-      else if (reason === 'deleted') {
+      else if (reason === 'removed') {
         const index = tasks.value.findIndex(t => t.id === task.id)
         if (index >= 0)
           tasks.value.splice(index, 1)
       }
-      else if (reason === 'updated') {
+      else if (reason === 'modified') {
         const index = tasks.value.findIndex(t => t.id === task.id)
         if (index >= 0)
           tasks.value.splice(index, 1, task)

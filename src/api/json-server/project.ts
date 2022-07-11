@@ -4,7 +4,7 @@ import config from './config'
 import handleError from './handleError'
 import type { Project } from '~/models/Project'
 
-export type OnChangeProjectCb = (p: Project, changeType: 'created' | 'modified' | 'removed') => void
+export type OnChangeProjectCb = (p: Project, reason: 'created' | 'modified' | 'removed') => void
 export type OnErrorProjectCb = (err: any) => void
 
 const { collections: { projects: { path } } } = config

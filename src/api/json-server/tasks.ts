@@ -8,7 +8,7 @@ const api = mande(path)
 
 export interface TaskUpdateRecord {
   task: Task
-  reason: 'created' | 'updated' | 'deleted'
+  reason: 'created' | 'modified' | 'removed'
 }
 
 export type TaskCallback = (t: TaskUpdateRecord[]) => void
@@ -67,7 +67,7 @@ export const updateTask = async (_task: Task) => {
   try {
     const updatedAt = new Date().toJSON()
     const task = await api.put<Task>(_task.id, { ..._task, updatedAt })
-    sendUpdateTask(task.projectId, { task, reason: 'updated' })
+    sendUpdateTask(task.projectId, { task, reason: 'modified' })
     return task
   }
   catch (err: any) {
@@ -79,7 +79,7 @@ export const patchTask = async (id: string, data: any) => {
   try {
     const updatedAt = new Date().toJSON()
     const task = await api.patch<Task>(id, { ...data, updatedAt })
-    sendUpdateTask(task.projectId, { task, reason: 'updated' })
+    sendUpdateTask(task.projectId, { task, reason: 'modified' })
     return task
   }
   catch (err: any) {
@@ -90,7 +90,7 @@ export const patchTask = async (id: string, data: any) => {
 export const deleteTask = async (task: Task) => {
   try {
     await api.delete(task.projectId)
-    sendUpdateTask(task.projectId, { task, reason: 'deleted' })
+    sendUpdateTask(task.projectId, { task, reason: 'removed' })
 
     return true
   }

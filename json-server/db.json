@@ -1,5 +1,81 @@
 {
   "projects": [
+    {
+      "title": "Изучение Vue 3",
+      "content": "Тестовый проект.",
+      "tags": [
+        "vue3",
+        "awesome"
+      ],
+      "stages": [
+        {
+          "id": "BACKLOG",
+          "name": "Планы",
+          "color": "#0080c0"
+        },
+        {
+          "id": "INPROGRESS",
+          "name": "В работе",
+          "color": "#008040"
+        },
+        {
+          "id": "DONE",
+          "name": "Завершено",
+          "final": true,
+          "color": "#c0c0c0"
+        }
+      ],
+      "active": true,
+      "membersIds": [],
+      "ownerId": 1,
+      "createdAt": "2022-07-11T12:55:51.405Z",
+      "updatedAt": "2022-07-11T13:23:23.212Z",
+      "id": 1
+    },
+    {
+      "title": "Поиск работы c Vue",
+      "content": "",
+      "tags": [
+        "job",
+        "vue"
+      ],
+      "stages": [
+        {
+          "id": "VACANCY",
+          "name": "Вакансии",
+          "color": "#0080ff"
+        },
+        {
+          "id": "RESUME",
+          "name": "Резюме",
+          "color": "#ffff00"
+        },
+        {
+          "id": "INTERVIEW",
+          "name": "Собеседование",
+          "color": "#ff0000",
+          "final": false
+        },
+        {
+          "id": "SUCCESS",
+          "name": "Успешно",
+          "final": true,
+          "color": "#00ff00"
+        },
+        {
+          "id": "FAIL",
+          "name": "Неудачно",
+          "color": "#000000",
+          "final": true
+        }
+      ],
+      "active": true,
+      "membersIds": [],
+      "ownerId": 1,
+      "createdAt": "2022-07-11T13:02:33.494Z",
+      "updatedAt": "2022-07-11T13:39:06.045Z",
+      "id": 2
+    }
   ],
   "tasks": []
 }

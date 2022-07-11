@@ -11,7 +11,12 @@ const emit = defineEmits(['update:project'])
 
 const { t } = useI18n()
 
-const project = reactive(props.project)
+// deep copy project
+const project = reactive({
+  ...props.project,
+  tags: [...props.project.tags],
+  stages: props.project.stages.map(s => ({ ...s })),
+})
 const stagesRef = ref(null as unknown as Element)
 
 const toggleFinal = (id: string | number) => {
@@ -86,6 +91,8 @@ const deleteStage = (id: string) => {
 }
 
 watch(project, (p: Project) => emit('update:project', p))
+
+const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' })
 </script>
 
 <template>
@@ -107,12 +114,17 @@ watch(project, (p: Project) => emit('update:project', p))
           </div><input
             :value="id" class="w-full" required @mousedown.stop=""
             @change="changeId(id, ($event.target as HTMLInputElement).value)"
+            @focusout="changeId(id, ($event.target as HTMLInputElement).value)"
             @keydown.escape="($event.target as HTMLInputElement).value = id"
+            @keydown.enter="($event.target as HTMLInputElement).blur()"
           >
           <div>{{ t('project.stage.name') }}:</div>
           <input
-            class="w-full" :value="name" @mousedown.stop="" @change="changeName(id, ($event.target as HTMLInputElement).value)"
+            class="w-full" :value="name" @mousedown.stop=""
+            @change="changeName(id, ($event.target as HTMLInputElement).value)"
+            @focusout="changeName(id, ($event.target as HTMLInputElement).value)"
             @keydown.escape="($event.target as HTMLInputElement).value = name"
+            @keydown.enter="($event.target as HTMLInputElement).blur()"
           >
           <input
             type="color" class="ProjectEditor__stage-card-color" :value="color || '#ffffff'"
