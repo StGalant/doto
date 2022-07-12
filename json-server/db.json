@@ -21,7 +21,7 @@
         {
           "id": "PRACTICE",
           "name": "Практика",
-          "color": "#ffffff",
+          "color": "#ff8080",
           "final": false
         },
         {
@@ -35,7 +35,7 @@
       "membersIds": [],
       "ownerId": 1,
       "createdAt": "2022-07-11T12:55:51.405Z",
-      "updatedAt": "2022-07-12T09:55:04.968Z",
+      "updatedAt": "2022-07-12T13:17:19.181Z",
       "id": 1
     },
     {
@@ -89,9 +89,9 @@
       "projectId": 1,
       "ownwerId": "",
       "stageId": "DONE",
-      "order": 3000,
+      "order": 4000,
       "createdAt": "2022-07-12T06:13:03.769Z",
-      "updatedAt": "2022-07-12T10:12:59.820Z",
+      "updatedAt": "2022-07-12T13:02:40.438Z",
       "tags": [
         "javascript"
       ],
@@ -115,10 +115,10 @@
       "id": 3,
       "projectId": 1,
       "ownwerId": "",
-      "stageId": "PRACTICE",
-      "order": 1000,
+      "stageId": "INPROGRESS",
+      "order": 10125,
       "createdAt": "2022-07-12T06:57:30.201Z",
-      "updatedAt": "2022-07-12T10:00:07.527Z",
+      "updatedAt": "2022-07-12T13:16:19.195Z",
       "tags": [
         "git"
       ],
@@ -128,23 +128,23 @@
       "id": 4,
       "projectId": 1,
       "ownwerId": "",
-      "stageId": "BACKLOG",
-      "order": 5125,
+      "stageId": "INPROGRESS",
+      "order": 9125,
       "createdAt": "2022-07-12T07:09:15.553Z",
-      "updatedAt": "2022-07-12T10:00:13.886Z",
+      "updatedAt": "2022-07-12T14:13:30.042Z",
       "tags": [
         "patterns"
       ],
-      "content": "Изучить паттерны проектирования."
+      "content": "Изучить паттерны проектирования. Ну вдруг спросят."
     },
     {
       "id": 5,
       "projectId": 1,
       "ownwerId": "",
-      "stageId": "INPROGRESS",
-      "order": 1000,
+      "stageId": "DONE",
+      "order": 5000,
       "createdAt": "2022-07-12T07:12:00.509Z",
-      "updatedAt": "2022-07-12T10:00:21.930Z",
+      "updatedAt": "2022-07-12T13:16:01.006Z",
       "tags": [
         "vue"
       ],
@@ -155,14 +155,40 @@
       "projectId": 1,
       "ownwerId": "",
       "stageId": "INPROGRESS",
-      "order": 6125,
+      "order": 8125,
       "createdAt": "2022-07-12T10:11:17.347Z",
-      "updatedAt": "2022-07-12T10:11:17.347Z",
+      "updatedAt": "2022-07-12T13:10:23.039Z",
       "tags": [
         "vue",
         "lessons"
       ],
       "content": "Посмотреть все видео с vuemastery.com"
+    },
+    {
+      "id": 7,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "PRACTICE",
+      "order": 11125,
+      "createdAt": "2022-07-12T13:17:03.292Z",
+      "updatedAt": "2022-07-12T13:17:03.292Z",
+      "tags": [
+        "todo"
+      ],
+      "content": "Написать приложение TODO."
+    },
+    {
+      "id": 8,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "BACKLOG",
+      "order": 12125,
+      "createdAt": "2022-07-12T13:18:21.403Z",
+      "updatedAt": "2022-07-12T13:18:21.403Z",
+      "tags": [
+        "job"
+      ],
+      "content": "Найти работу с VueJs"
     }
   ]
 }
