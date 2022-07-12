@@ -167,6 +167,9 @@ const ROW_HEIGHT_1 = 36
 const ROW_HEIGHT_2 = 62
 
 const stageView = ref<any>({})
+const projectSettings = JSON.parse(localStorage.getItem(`project-${props.projectId}`) || '{}')
+if (projectSettings.stageView)
+  stageView.value = projectSettings.stageView
 
 watchEffect(() => {
   if (!project.value)
@@ -175,6 +178,9 @@ watchEffect(() => {
   const sv: any = {}
   project.value.stages.forEach(({ id }) => sv[id] = { columns: 1, rowHeight: ROW_HEIGHT_1 })
   stageView.value = { ...sv, ...stageView.value }
+
+  projectSettings.stageView = stageView.value
+  localStorage.setItem(`project-${props.projectId}`, JSON.stringify(projectSettings))
 })
 
 const toggleStageViewColumns = (stageId: string) => {
@@ -185,6 +191,9 @@ const toggleStageViewColumns = (stageId: string) => {
     stageView.value[stageId].columns = 2
   else
     stageView.value[stageId].columns = 1
+
+  projectSettings.stageView = stageView.value
+  localStorage.setItem(`project-${props.projectId}`, JSON.stringify(projectSettings))
 }
 
 const toggleStageViewRowHeight = (stageId: string) => {
