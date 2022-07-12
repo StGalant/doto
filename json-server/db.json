@@ -89,9 +89,9 @@
       "projectId": 1,
       "ownwerId": "",
       "stageId": "DONE",
-      "order": 1000,
+      "order": 3000,
       "createdAt": "2022-07-12T06:13:03.769Z",
-      "updatedAt": "2022-07-12T10:00:00.062Z",
+      "updatedAt": "2022-07-12T10:12:59.820Z",
       "tags": [
         "javascript"
       ],
@@ -149,6 +149,20 @@
         "vue"
       ],
       "content": "Пробежаться по гайду на vuejs.org"
+    },
+    {
+      "id": 6,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "INPROGRESS",
+      "order": 6125,
+      "createdAt": "2022-07-12T10:11:17.347Z",
+      "updatedAt": "2022-07-12T10:11:17.347Z",
+      "tags": [
+        "vue",
+        "lessons"
+      ],
+      "content": "Посмотреть все видео с vuemastery.com"
     }
   ]
 }
