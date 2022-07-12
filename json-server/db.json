@@ -19,6 +19,12 @@
           "color": "#008040"
         },
         {
+          "id": "PRACTICE",
+          "name": "Практика",
+          "color": "#ffffff",
+          "final": false
+        },
+        {
           "id": "DONE",
           "name": "Завершено",
           "final": true,
@@ -29,7 +35,7 @@
       "membersIds": [],
       "ownerId": 1,
       "createdAt": "2022-07-11T12:55:51.405Z",
-      "updatedAt": "2022-07-11T13:23:23.212Z",
+      "updatedAt": "2022-07-12T07:41:09.515Z",
       "id": 1
     },
     {
@@ -77,5 +83,72 @@
       "id": 2
     }
   ],
-  "tasks": []
+  "tasks": [
+    {
+      "id": 1,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "BACKLOG",
+      "order": 1.955,
+      "createdAt": "2022-07-12T06:13:03.769Z",
+      "updatedAt": "2022-07-12T07:25:16.883Z",
+      "tags": [
+        "javascript"
+      ],
+      "content": "Изучить JavaScript ES6+.\nМодули и export / import.\nПонимать Event Loop и асинхронность, что такое Proxy.\nК счастью, классы в Vue не нужны, но понимать this и всё что связанно с делегацией нужно."
+    },
+    {
+      "id": 2,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "BACKLOG",
+      "order": 1.5,
+      "createdAt": "2022-07-12T06:35:38.798Z",
+      "updatedAt": "2022-07-12T07:25:19.983Z",
+      "tags": [
+        "html",
+        "css"
+      ],
+      "content": "Изучить HTML DOM и СSS.\nКак минимум пригодятся Events и элементы формы.\nВ CSS достаточно не путать padding и margin."
+    },
+    {
+      "id": 3,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "BACKLOG",
+      "order": 2.5,
+      "createdAt": "2022-07-12T06:57:30.201Z",
+      "updatedAt": "2022-07-12T07:19:42.005Z",
+      "tags": [
+        "git"
+      ],
+      "content": "Изучить Git.\nХороший гайд: https://www.atlassian.com/git/tutorials/learn-git-with-bitbucket-cloud"
+    },
+    {
+      "id": 4,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "BACKLOG",
+      "order": 3125,
+      "createdAt": "2022-07-12T07:09:15.553Z",
+      "updatedAt": "2022-07-12T07:42:25.852Z",
+      "tags": [
+        "patterns"
+      ],
+      "content": "Изучить паттерны проектирования."
+    },
+    {
+      "id": 5,
+      "projectId": 1,
+      "ownwerId": "",
+      "stageId": "BACKLOG",
+      "order": 2125,
+      "createdAt": "2022-07-12T07:12:00.509Z",
+      "updatedAt": "2022-07-12T07:19:44.886Z",
+      "tags": [
+        "vue"
+      ],
+      "content": "Пробежаться по гайду на vuejs.org"
+    }
+  ]
 }
