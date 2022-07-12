@@ -358,14 +358,11 @@ onUpdated(() => {
 .ProjectPage {
   display: grid;
   grid-template-rows: auto 1fr;
+  height: 100%;
 }
 
 .Project__stages-wrapper {
   overflow-x: scroll;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: min-content;
-  position: relative
 }
 
 .Project__stages-wrapper--scroll-left {
@@ -378,9 +375,9 @@ onUpdated(() => {
 
 .Project__stages {
   display: flex;
-  gap: 1rem;
-  max-width: 100%;
+  gap: .5rem;
   margin: 0 auto;
+  height: 100%;
 }
 
 .ProjectPage * {
@@ -394,7 +391,7 @@ onUpdated(() => {
   background-color: transparent;
 }
 
-.ProjectPtages *::-webkit-scrollbar-thumb {
+.ProjectPage *::-webkit-scrollbar-thumb {
   width: .5rem;
   background-color: var(--color-action-1);
 }
@@ -412,8 +409,11 @@ onUpdated(() => {
 
 .Project__stage {
   display: grid;
+  gap: .25rem;
   grid-template-rows: min-content 1fr;
   padding-left: 1rem;
+  height: 100%;
+  flex-shrink: 0;
 }
 
 .Project__stage--onecol {
@@ -435,7 +435,7 @@ onUpdated(() => {
 }
 
 .VSortableGrid {
-  padding: .5rem 0 0 0;
+  padding: .5rem .25rem 0 0;
 }
 
 .VSortableGrid__placeholder {
@@ -460,8 +460,19 @@ onUpdated(() => {
 }
 .Project__task-content {
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right: .2rem;
+  scrollbar-color: hsl(250deg, 90%, 70%) transparent;
+}
+
+.Project__task-content::-webkit-scrollbar {
+  width: .5rem;
+  background-color: transparent;
+}
+
+.Project__task-content::-webkit-scrollbar-thumb {
+  width: .5rem;
+  background-color: hsl(250deg, 90%, 70%);
 }
 
 .ProjectPage__project-content {

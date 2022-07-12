@@ -15,7 +15,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="DashboardLayout h-screen flex flex-col w-full px-4">
+  <div class="DashboardLayout h-screen w-full px-4">
     <header class="DashboardHeader">
       <div class="text-2xl font-bold">
         <RouterLink :to="{ name: 'Projects' }">
@@ -24,15 +24,23 @@ watchEffect(() => {
       </div>
       <Navigation />
     </header>
-    <main v-if="userStore.user" class="flex-grow grid">
+    <main v-if="userStore.user" class="h-full">
       <RouterView />
     </main>
   </div>
 </template>
 
 <style>
+.DashboardLayout {
+  display: grid;
+  grid-template-rows: 3rem calc(100% - 3rem);
+}
+
+:root {
+    overflow: hidden;
+
+}
 .DashboardHeader {
-  height: 4rem;;
   border-bottom: 3px solid var(--color-brand-1);
   display: grid;
   align-items: center;
