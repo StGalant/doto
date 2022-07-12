@@ -143,7 +143,7 @@ const updateItem = (stageId: string, data: DragData) => {
     let order = 0
 
     if (ii > 0 && ii < (t.length - 1)) {
-      order = (t[ii].order + t[ii + 1].order) / 2
+      order = (t[ii].order + t[ii - 1].order) / 2
     }
     else if (ii === 0) {
       const iiOrder = t[ii]?.order || 2000

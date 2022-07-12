@@ -50,10 +50,20 @@ export const loadTasks = async (projectId: string) => {
 }
 
 export const createTask = async (_task: Task) => {
+  let order: number
+  try {
+    const lastTask = await api.get<Task[]>('', { query: { _sort: 'order', _order: 'desc', _limit: 1 } })
+    order = Number(lastTask[0].order) + 1000
+  }
+  catch (err) {
+    const error = handleError(err)
+    throw error.message
+  }
+
   try {
     const createdAt = new Date().toJSON()
     const updatedAt = createdAt
-    const task = await api.post<Task>({ ..._task, createdAt, updatedAt })
+    const task = await api.post<Task>({ ..._task, order, createdAt, updatedAt })
     sendUpdateTask(task.projectId, { task, reason: 'created' })
     return task
   }
