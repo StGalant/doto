@@ -103,10 +103,10 @@ const heading = computed(() => {
         <div>{{ heading }}</div>
       </div>
       <div class="flex items-center gap-1">
-        <div v-if="currentMode === 'view' && editEnable" class="cursor-pointer text-sm underline" role="button" @click="editMode">
+        <div v-if="currentMode === 'view' && editEnable" class="cursor-pointer text-sm underline" style="text-underline-offset: .3rem" role="button" @click="editMode">
           {{ t('form.button.edit') }}
         </div>
-        <div v-if="currentMode === 'edit' && modified" class="cursor-pointer text-sm underline" role="button" @click="onSaveTask">
+        <div v-if="currentMode === 'edit' && modified" class="cursor-pointer text-sm underline" style="text-underline-offset: .3rem" role="button" @click="onSaveTask">
           {{ t('form.button.save') }}
         </div>
         <div i="carbon-close" class="close-icon cursor-pointer" role="button" :aria-label="t('form.button.close')" @click="onCancel" />

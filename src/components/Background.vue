@@ -1,7 +1,3 @@
-<script lang="ts" setup>
-import { Motion } from 'motion/vue'
-</script>
-
 <template>
   <div class="Background fixed inset-0 ">
     <div
