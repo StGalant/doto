@@ -19,10 +19,12 @@
   color: var(--color-action-0);
   border: 2px solid var(--color-action-0);
   font-weight: 600;
+  transition: background-color .2s ease;
 }
 .VButton:hover {
   background-color: var(--color-action-0);
   color: var(--color-action-contrast-0);
+  text-shadow: 0 0 5px var(--color-border);
 }
 
 .VButton[secondary] {
@@ -34,5 +36,6 @@
 .VButton[secondary]:hover {
   color: var(--color-action-0);
   text-decoration: underline;
+  text-shadow: 0 0 20px var(--color-border);
 }
 </style>
