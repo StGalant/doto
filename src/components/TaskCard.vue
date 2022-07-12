@@ -116,9 +116,11 @@ const heading = computed(() => {
       v-model="cTask" :stages="stages" :mode="currentMode"
       :disabled="pending"
     />
-    <div class="TaskCard__error">
-      {{ error }}
-    </div>
+    <Teleport to="#app-message">
+      <div v-if="error" class="TaskCard__error-message theme-danger">
+        {{ error }}!
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -146,8 +148,20 @@ const heading = computed(() => {
 }
 
 .TaskCard__error {
-  position: absolute;
-  bottom: 120%;
+  position: fixed;
+  top: 0;
+  left: 0;
   font-weight: bold;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: .25rem;
+}
+
+.TaskCard__error-message {
+  background-color: var(--color-background);
+  color: var(--color-action-0);
+  padding: 1rem 2rem;
+  border-radius: 5px;
 }
 </style>

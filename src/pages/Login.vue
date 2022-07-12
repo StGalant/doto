@@ -66,9 +66,11 @@ const onSubmit = async () => {
         </VButton>
       </form>
     </div>
-    <h1 v-if="error" data-test-id="login-error" class="Login__error theme-danger mt-1 p-1">
-      !&nbsp;&nbsp;{{ error }}
-    </h1>
+    <Teleport to="#app-message">
+      <h1 v-if="error" data-test-id="login-error" class="Login__error theme-danger mt-1 py-1 px-4 rounded">
+        {{ error }}!
+      </h1>
+    </Teleport>
   </div>
 </template>
 
@@ -78,6 +80,10 @@ const onSubmit = async () => {
   flex-direction: column;
   align-items: center;
   padding-top: 5vh;
+}
+
+.Login__form{
+  background-color: var(--color-background);
 }
 
 .Login__form .VInput input {
@@ -116,5 +122,10 @@ const onSubmit = async () => {
   border-color: var(--color-brand-0);
   bottom: 0;
   right: 0;
+}
+
+.Login__error {
+  background-color: var(--color-background);
+  color: var(--color-action-0);
 }
 </style>
