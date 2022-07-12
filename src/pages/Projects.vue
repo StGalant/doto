@@ -80,5 +80,6 @@ export default defineComponent({
   border-radius: 0.8rem;
   padding: .5rem;
   cursor: pointer;
+  background-color: var(--color-background);
 }
 </style>
