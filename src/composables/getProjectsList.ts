@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import { projectsListApi } from '~/api'
 import type { Project } from '~/models/Project'
 
@@ -35,6 +35,8 @@ export const getProjectsList = () => {
   }
 
   projectsListApi.subscribe(onChange, onError)
+
+  onUnmounted(() => projectsListApi.unsubscribe(onChange, onError))
 
   isPending.value = true
   projectsListApi.load()
