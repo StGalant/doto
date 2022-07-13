@@ -5,4 +5,4 @@ export * as projectsListApi from './projectsList'
 export * as projectApi from './project'
 export * as tasksApi from './tasks'
 
-defaults.headers['Cache-control'] = 'no-cache'
+defaults.cache = 'no-cache'
