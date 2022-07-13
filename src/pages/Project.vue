@@ -301,7 +301,7 @@ onUpdated(() => {
           >
             <template #default="{ item: task }">
               <div class="Project__task" @click="openTaskForm(task)">
-                <div class="Project__task-content text-justify">
+                <div class="Project__task-content">
                   {{ task.content }}
                 </div>
                 <VTags :model-value="task.tags" :color="true" :disabled="true" />
@@ -461,6 +461,7 @@ onUpdated(() => {
 .Project__task-content {
   height: 100%;
   overflow-y: auto;
+  overflow-wrap: anywhere;
   padding-right: .2rem;
   scrollbar-color: hsl(250deg, 90%, 70%) transparent;
 }
