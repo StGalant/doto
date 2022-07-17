@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useHead } from '@vueuse/head'
+import VTooltip from './components/VTooltip.vue'
 import { isDark, preferredDark } from '~/composables/dark'
 import { useAppInit } from '~/composables/useAppInit'
 import { useUserStore } from '~/store/user'
@@ -38,6 +39,7 @@ if (!import.meta.env.SSR) {
   <div id="app-message" />
   <Background />
   <RouterView v-if="initialized" />
+  <VTooltip />
 </template>
 
 <style>
