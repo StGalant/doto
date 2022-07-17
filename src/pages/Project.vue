@@ -278,12 +278,12 @@ onUpdated(() => {
               {{ stage.name }}
             </h1>
             <div class="Project__stage-columns-toggle" @click="toggleStageViewRowHeight(stage.id)">
-              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_1" v-tooltip="() => (t('tooltips.project.largeCards'))" i="tabler-square" />
-              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_2" v-tooltip="() => (t('tooltips.project.smallCards'))" i="tabler-layout-rows" />
+              <div v-show="stageView[stage.id].rowHeight === ROW_HEIGHT_1" v-tooltip="() => (t('tooltips.project.largeCards'))" i="tabler-square" />
+              <div v-show="stageView[stage.id].rowHeight === ROW_HEIGHT_2" v-tooltip="() => (t('tooltips.project.smallCards'))" i="tabler-layout-rows" />
             </div>
             <div class="Project__stage-columns-toggle" @click="toggleStageViewColumns(stage.id)">
-              <div v-if="stageView[stage.id].columns === 1" v-tooltip="() => (t('tooltips.project.twoColumns'))" i="tabler-columns" />
-              <div v-if="stageView[stage.id].columns === 2" v-tooltip="() => (t('tooltips.project.oneColumn'))" i="tabler-align-justified" />
+              <div v-show="stageView[stage.id].columns === 1" v-tooltip="() => (t('tooltips.project.twoColumns'))" i="tabler-columns" />
+              <div v-show="stageView[stage.id].columns === 2" v-tooltip="() => (t('tooltips.project.oneColumn'))" i="tabler-align-justified" />
             </div>
             <VPlusMinus
               v-if="!stage.final"
