@@ -38,7 +38,9 @@ task:
   modified: изменена
   new: Новая задача
 tooltips:
-  largeCards: Большие карточки
-  oneColumn: Одна колонка
-  smallCards: Маленькие карточки
-  twoColumns: Две колонки
+  project:
+    addTask: Добавить задачу
+    largeCards: Большие карточки
+    oneColumn: Одна колонка
+    smallCards: Маленькие карточки
+    twoColumns: Две колонки

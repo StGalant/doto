@@ -13,6 +13,7 @@ import TaskCard from '~/components/TaskCard.vue'
 import VButton from '~/components/VButton.vue'
 import VTags from '~/components/VTags.vue'
 import ProjectEditForm from '~/components/ProjectEditForm.vue'
+import { vTooltip } from '~/composables/useTooltip'
 
 const props = defineProps<{ projectId: string }>()
 
@@ -277,15 +278,16 @@ onUpdated(() => {
               {{ stage.name }}
             </h1>
             <div class="Project__stage-columns-toggle" @click="toggleStageViewRowHeight(stage.id)">
-              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_1" i="tabler-square" />
-              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_2" i="tabler-layout-rows" data-tooltip="Narrow Cards" />
+              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_1" v-tooltip="() => (t('tooltips.project.largeCards'))" i="tabler-square" />
+              <div v-if="stageView[stage.id].rowHeight === ROW_HEIGHT_2" v-tooltip="() => (t('tooltips.project.smallCards'))" i="tabler-layout-rows" />
             </div>
             <div class="Project__stage-columns-toggle" @click="toggleStageViewColumns(stage.id)">
-              <div v-if="stageView[stage.id].columns === 1" i="tabler-columns" />
-              <div v-if="stageView[stage.id].columns === 2" i="tabler-align-justified" />
+              <div v-if="stageView[stage.id].columns === 1" v-tooltip="() => (t('tooltips.project.twoColumns'))" i="tabler-columns" />
+              <div v-if="stageView[stage.id].columns === 2" v-tooltip="() => (t('tooltips.project.oneColumn'))" i="tabler-align-justified" />
             </div>
             <VPlusMinus
               v-if="!stage.final"
+              v-tooltip="() => (t('tooltips.project.addTask'))"
               class="Project__add-stage-button w-5 h-5 m-1 opacity-50 cursor-pointer"
               @click="addTask(stage.id)"
             />

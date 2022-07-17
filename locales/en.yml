@@ -32,3 +32,10 @@ projects:
   link: Projects
 task:
   modified: modified
+tooltips:
+  project:
+    addTask: Add a Task
+    largeCards: Large Cards
+    smallCards: Small Cards
+    oneColumn: One Column
+    twoColumns: Two Columns
