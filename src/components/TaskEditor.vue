@@ -30,7 +30,7 @@ const stage = computed(() => props.stages.find(s => s.id === props.modelValue.st
         v-if="modelValue.stageId"
         :model-value="stage" :options="stages"
         :disabled="disabled || mode === 'view'"
-        @update:model-value="$emit('update:modelValue', { ...modelValue, id: $event.id })"
+        @update:model-value="$emit('update:modelValue', { ...modelValue, stageId: $event.id })"
       >
         <template #default="{ item }">
           <div class="flex items-center gap-1 px-1">
@@ -45,7 +45,7 @@ const stage = computed(() => props.stages.find(s => s.id === props.modelValue.st
     <div class="TaskForm__content-wrapper">
       <textarea
         :value="modelValue.content" class="TaskForm__content-edit"
-        :class="{ invisible: (mode === 'view' || disabled) }"
+        :class="{ invisible: (mode === 'view') }"
         name="content"
         :disabled="disabled"
         @input="$emit('update:modelValue', { ...modelValue, content: ($event.target as HTMLTextAreaElement).value })"
