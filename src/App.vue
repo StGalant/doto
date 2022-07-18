@@ -6,6 +6,7 @@ import { isDark, preferredDark } from '~/composables/dark'
 import { useAppInit } from '~/composables/useAppInit'
 import { useUserStore } from '~/store/user'
 import Background from '~/components/Background.vue'
+import VMessages from '~/components/VMessages.vue'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
@@ -36,7 +37,7 @@ if (!import.meta.env.SSR) {
 </script>
 
 <template>
-  <div id="app-message" />
+  <VMessages />
   <Background />
   <RouterView v-if="initialized" />
   <VTooltip />

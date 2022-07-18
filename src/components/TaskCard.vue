@@ -5,8 +5,7 @@ import TaskEditor from '~/components/TaskEditor.vue'
 import type { Task } from '~/models/Task'
 import { tasksApi } from '~/api'
 import type { Stage } from '~/models/Project'
-
-type CardModes = 'view' | 'edit'
+import { useMessagesStore } from '~/store/messages'
 
 const props = withDefaults(defineProps<{
   task: Task
@@ -14,16 +13,21 @@ const props = withDefaults(defineProps<{
   mode?: CardModes
   editEnable?: boolean
 }>(), { editEnable: true })
+
 const emit = defineEmits<{
   (e: 'saveTask', task: Task): void
   (e: 'close', modified: boolean): void
   (e: 'modified', m: boolean): void
 }>()
 
+const msgStore = useMessagesStore()
+let prevErrorId: null | number = null
+
+type CardModes = 'view' | 'edit'
+
 const { t } = useI18n()
 
 const currentTask = ref({ ...props.task, tags: [...props.task.tags] } as Task)
-const error = ref<string | null>(null)
 const pending = ref(false)
 const modified = ref(false)
 const isNewTask = !props.task.id
@@ -48,7 +52,9 @@ const onSaveTask = async () => {
     return
 
   if (!cTask.value.content?.trim()) {
-    error.value = t('error.contentEmpty')
+    if (prevErrorId)
+      msgStore.deleteMessage(prevErrorId)
+    prevErrorId = msgStore.pushError(t('error.contentEmpty'))
     return
   }
 
@@ -62,7 +68,9 @@ const onSaveTask = async () => {
     emit('saveTask', cTask.value)
   }
   catch (err: any) {
-    error.value = err
+    if (prevErrorId)
+      msgStore.deleteMessage(prevErrorId)
+    prevErrorId = msgStore.pushError(t(err))
   }
   finally {
     pending.value = false
@@ -116,11 +124,6 @@ const heading = computed(() => {
       v-model="cTask" :stages="stages" :mode="currentMode"
       :disabled="pending"
     />
-    <Teleport to="#app-message">
-      <div v-if="error" class="TaskCard__error-message theme-danger">
-        {{ error }}!
-      </div>
-    </Teleport>
   </div>
 </template>
 
