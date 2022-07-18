@@ -5,14 +5,17 @@ import { useRouter } from 'vue-router'
 import VButton from '~/components/VButton.vue'
 import VInput from '~/components/VInput.vue'
 import { useUserStore } from '~/store/user'
+import { useMessagesStore } from '~/store/messages'
 
 const { t } = useI18n()
 const router = useRouter()
 
+const msgStore = useMessagesStore()
+let prevErrorId: null | number = null
+
 const user = useUserStore()
 const email = ref('')
 const password = ref('')
-const error = ref<string | null>(null)
 
 watchEffect(() => {
   if (user.loggedIn)
@@ -26,7 +29,9 @@ const onSubmit = async () => {
     await user.login(email.value, password.value)
   }
   catch (err: any) {
-    error.value = err.message
+    if (prevErrorId)
+      msgStore.deleteMessage(prevErrorId)
+    prevErrorId = msgStore.pushError(t(err.message))
   }
   finally {
     pending.value = false
@@ -66,11 +71,6 @@ const onSubmit = async () => {
         </VButton>
       </form>
     </div>
-    <Teleport to="#app-message">
-      <h1 v-if="error" data-test-id="login-error" class="Login__error theme-danger mt-1 py-1 px-4 rounded">
-        {{ error }}!
-      </h1>
-    </Teleport>
   </div>
 </template>
 
