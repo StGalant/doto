@@ -256,7 +256,7 @@ onUpdated(() => {
     </div>
     <div
       ref="projectStagesWrapperRef"
-      class="Project__stages-wrapper w-full h-full"
+      class="Project__stages-wrapper w-full h-full flex"
       :class="{
         'Project__stages-wrapper--scroll-left': !projectStagesLeftVisible,
         'Project__stages-wrapper--scroll-right': !projectStagesRightVisible,
@@ -272,7 +272,10 @@ onUpdated(() => {
             'Project__stage--twocol': (stageView[stage.id].columns === 2),
           }"
         >
-          <div class="Project__stage-header gap-1">
+          <div
+            class="Project__stage-header gap-1"
+            @wheel.prevent="projectStagesWrapperRef.scrollLeft += $event.deltaY"
+          >
             <div class="rounded-full w-4 h-4" :style="{ backgroundColor: stage.color || 'transparent' }" />
             <h1 class="text-xl flex items-center">
               {{ stage.name }}
