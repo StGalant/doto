@@ -111,6 +111,7 @@ const resetDrag = () => {
     draggedRef.value.style.top = null
     draggedRef.value.style.width = null
     draggedRef.value.style.height = null
+    draggedRef.value.style.transform = null
     draggedRef.value.classList.remove('VSortableGrid__item--dragged')
     const dr = draggedRef.value
     window.requestAnimationFrame(() => {
@@ -148,8 +149,9 @@ const onMouseMove = ({ clientX: mx, clientY: my }: MouseEvent) => {
       draggedRef.value = itemsRefs[draggedIndex as number]
       const { height, width } = draggedRef.value.getBoundingClientRect()
       draggedRef.value.classList.add('VSortableGrid__item--dragged')
-      draggedRef.value.style.left = `${x}px`
-      draggedRef.value.style.top = `${y}px`
+      draggedRef.value.style.transform = `translate3d(${x}px, ${y}px, 0px)`
+      draggedRef.value.style.left = '0px'
+      draggedRef.value.style.top = '0px'
       draggedRef.value.style.height = `${height}px`
       draggedRef.value.style.width = `${width}px`
       draggedRef.value.addEventListener('click', preventEvent, true)
@@ -169,8 +171,7 @@ const onMouseMove = ({ clientX: mx, clientY: my }: MouseEvent) => {
     // Drag item
     const x = mx + moveCtx.offsetX
     const y = my + moveCtx.offsetY
-    draggedRef.value.style.left = `${x}px`
-    draggedRef.value.style.top = `${y}px`
+    draggedRef.value.style.transform = `translate3d(${x}px, ${y}px, 0px)`
     drag({
       rect: { x, y, height: draggedHeight, width: draggedWidth },
       mouse: { x: mx, y: my },
